@@ -11,7 +11,7 @@
     %
     %% Макрос filltitle ненавидит пустые строки, поэтому обязателен хотя бы символ комментария на строке
     %% Актуально всем.
-    title              = {Настройка(?поддержка) аппаратной платформы системы хранения данных},
+    title              = {Исследование формата данных Parquet и его применение в СУБД PostgreSQL для ускорения аналитических запросов},
     %
     %% Здесь указывается тип работы. Возможные значения:
     %%   production - производственная практика;
@@ -20,7 +20,7 @@
     %%   prediploma - отчёт по преддипломной практике;
     %%   master - ВКР магистра;
     %%   bachelor - ВКР бакалавра.
-    type               = {bachelor},
+    type               = {practice},
     %
     %% Здесь указывается вид работы. От вида работы зависят критерии оценивания.
     %%   solution - «Решение». Обучающемуся поручили найти способ решения проблемы в области разработки программного обеспечения или теоретической информатики с учётом набора ограничений.
@@ -28,7 +28,7 @@
     %%   production - «Производственное задание». Автору поручили реализовать потенциально полезное программное обеспечение.
     %%   comparison - «Сравнение». Обучающемуся поручили сравнить несколько существующих продуктов и/или подходов.
     %%   theoretical - «Теоретическое исследование». Автору поручили доказать какое-то утверждение, исследовать свойства алгоритма и т.п., при этом не требуя написания кода.
-    kind               = {production},
+    kind               = {experiment},
     %
     author             = {ЯВОРОВСКИЙ Александр Артемович},
     %
@@ -54,52 +54,52 @@
     %% короткая строка с большим количеством сокращений выглядит странно
     %supervisorPosition = {проф. кафeдры системного программирования, д.ф.-м.н.,}, % Терехов А. Н.
     %supervisorPosition = {ст. преподаватель кафедры ИАС, к.~ф.-м.~н. (если есть),}, % Смирнов К. К.
-    supervisorPosition = {доцент кафедры системного программирования, к.~ф.-м.~н.,},
-    supervisor         = {Луцив~Д.~В.},
+    supervisorPosition = {доцент кафедры информационно-аналитических систем, к.~ф.-м.~н.,},
+    supervisor         = {Графеева~Н.~Г.},
     %
     %% Актуально только для практик и курсовых. Если консультанта нет или он совпадает с научником, закомментировать или удалить вовсе.
-    consultantPosition = {должность, ООО \enquote{Место работы}, степень  (если есть),},
-    consultant         = {Консультант~К.~К.},
+    % consultantPosition = {должность, ООО \enquote{Место работы}, степень  (если есть),},
+    % consultant         = {Консультант~К.~К.},
     %
     %% Актуально только для ВКР.
-    reviewerPosition   = {должность, ООО \enquote{Место работы}, степень (если есть),},
-    reviewer           = {Рецензент~Р.~Р.},
+    % reviewerPosition   = {должность, ООО \enquote{Место работы}, степень (если есть),},
+    % reviewer           = {Рецензент~Р.~Р.},
 }
 
-% Английский титульник нужен только для ВКР, остальные виды работ могут его смело игнорировать.
-\filltitle{en}{
-    chair              = {Advisor's chair},
-    group              = {ХХ.BХХ-mm},
-    title              = {The configuration(?поддержка) of the data storage system hardware platform},
-    type               = {bachelor},
-    author             = {Aleksandr Yavorovskiy},
-    %
-    %% Possible choices:
-    %%   02.03.03 \foreignquote{english}{Software and Administration of Information Systems}
-    %%   02.04.03 \foreignquote{english}{Software and Administration of Information Systems}
-    %%   09.03.04 \foreignquote{english}{Software Engineering}
-    %%   09.04.04 \foreignquote{english}{Software Engineering}
-    %% Те, что с 03 в середине --- бакалавриат, с 04 --- магистратура.
-    specialty          = {02.03.03 \foreignquote{english}{Software and Administration of Information Systems}},
-    %
-    %% Possible choices:
-    %%   СВ.5162.2020 \foreignquote{english}{Programming Technologies}
-    %%   СВ.5080.2020 \foreignquote{english}{Software Engineering}
-    %%   ВМ.5665.2022 \foreignquote{english}{Software and Administration of Information Systems}
-    %%   ВМ.5666.2022 \foreignquote{english}{Software Engineering}
-    programme          = {СВ.5162.2020 \foreignquote{english}{Programming Technologies}},
-    %
-    %% Note that common title translations are:
-    %%   кандидат наук --- C.Sc. (NOT Ph.D.)
-    %%   доктор ... наук --- Sc.D.
-    %%   доцент --- docent (NOT assistant/associate prof.)
-    %%   профессор --- prof.
-    supervisorPosition = {C.Sc., docent},
-    supervisor         = {D.V. Lutsiv},
-    %
-    consultantPosition = {position at \foreignquote{english}{Company}, degree if present},
-    consultant         = {C.C. Consultant},
-    %
-    reviewerPosition   = {position at \foreignquote{english}{Company}, degree if present},
-    reviewer           = {R.R. Reviewer},
-}
+% % Английский титульник нужен только для ВКР, остальные виды работ могут его смело игнорировать.
+% \filltitle{en}{
+%     chair              = {Advisor's chair},
+%     group              = {ХХ.BХХ-mm},
+%     title              = {},
+%     type               = {bachelor},
+%     author             = {Aleksandr Yavorovskiy},
+%     %
+%     %% Possible choices:
+%     %%   02.03.03 \foreignquote{english}{Software and Administration of Information Systems}
+%     %%   02.04.03 \foreignquote{english}{Software and Administration of Information Systems}
+%     %%   09.03.04 \foreignquote{english}{Software Engineering}
+%     %%   09.04.04 \foreignquote{english}{Software Engineering}
+%     %% Те, что с 03 в середине --- бакалавриат, с 04 --- магистратура.
+%     specialty          = {02.03.03 \foreignquote{english}{Software and Administration of Information Systems}},
+%     %
+%     %% Possible choices:
+%     %%   СВ.5162.2020 \foreignquote{english}{Programming Technologies}
+%     %%   СВ.5080.2020 \foreignquote{english}{Software Engineering}
+%     %%   ВМ.5665.2022 \foreignquote{english}{Software and Administration of Information Systems}
+%     %%   ВМ.5666.2022 \foreignquote{english}{Software Engineering}
+%     programme          = {СВ.5162.2020 \foreignquote{english}{Programming Technologies}},
+%     %
+%     %% Note that common title translations are:
+%     %%   кандидат наук --- C.Sc. (NOT Ph.D.)
+%     %%   доктор ... наук --- Sc.D.
+%     %%   доцент --- docent (NOT assistant/associate prof.)
+%     %%   профессор --- prof.
+%     supervisorPosition = {C.Sc., docent},
+%     supervisor         = {N.G. Grafeyeva},
+%     %
+%     consultantPosition = {position at \foreignquote{english}{Company}, degree if present},
+%     consultant         = {C.C. Consultant},
+%     %
+%     reviewerPosition   = {position at \foreignquote{english}{Company}, degree if present},
+%     reviewer           = {R.R. Reviewer},
+% }

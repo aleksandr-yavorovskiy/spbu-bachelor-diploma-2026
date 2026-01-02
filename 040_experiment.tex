@@ -2,6 +2,32 @@
 % !TEX root = vkr.tex
 
 \section{Эксперимент}
-TODO: мб переделать в "валидацию" или "тестирование"
+\subsection{Условия эксперимента}
+Тестовый стенд:
+\begin{itemize}
+    \item HUAWEI MateBook D15 BoDE-WXX9-PCB-B4
+    \item CPU: 11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz
+    \item Ядра: 8
+    \item Зафиксированная частота процессора: 4500 GHz
+    \item ОЗУ: 16GB
+    \item ОС: Ubuntu 22.04.4 LTS
+    \item \postgresql{} 18.1 (Ubuntu 18.1-1.pgdg22.04+2)
+\end{itemize}
 
-Про юнит тесты, мокирование, QA проверку и тп
+\todo{почему мы выбрали именно эти тесты; входные дан\-ные, на которых проверяем наш подход, и почему мы выбрали именно их.}
+
+
+\subsection{Исследовательские вопросы}
+
+\begin{description}
+    \item[RQ1]: насколько использование формата данных \parquet{} ускоряет выполнение запросов в \postgresql{}?
+    \item[RQ2]: \todo{todo?}
+    \item[RQ3]: \todo{todo?}
+\end{description}
+
+
+\subsection{Метрики}
+\todo{За метрику берем время выполнения запроса в psql}
+
+\subsection{Результаты}
+\subsubsection{RQ1} \todo{Пояснения}
