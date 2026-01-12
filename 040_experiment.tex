@@ -5,23 +5,34 @@
 \subsection{Условия эксперимента}
 Тестовый стенд:
 \begin{itemize}
-    \item HUAWEI MateBook D15 BoDE-WXX9-PCB-B4
+    \item HUAWEI MateBook D15 BoDE-WXX9
     \item CPU: 11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz
     \item Ядра: 8
-    \item Зафиксированная частота процессора: 4500 GHz
+    \item Зафиксированная частота процессора: 4000 GHz
     \item ОЗУ: 16GB
     \item ОС: Ubuntu 22.04.4 LTS
     \item \postgresql{} 18.1 (Ubuntu 18.1-1.pgdg22.04+2)
 \end{itemize}
 
-\todo{почему мы выбрали именно эти тесты; входные дан\-ные, на которых проверяем наш подход, и почему мы выбрали именно их.}
+Для проведения эксперимента была создана тестовая таблица, состоящая из 10 столбцов и 100 миллионов строк, занимающая 12Гб места на диске. \todo{Схема таблицы? Ссылка на код заполнения?} Такие размеры необходимы для того, чтобы показать преимущество использования \pgduckdb{}: чем больше данных, тем эффективнее работа \pgduckdb{} при \olap{}-нагрузке. Эти данные также были конвертированы в формат данных \parquet{} с использованием \pgparquet{} --- итоговый .parquet файл занимает 2Гб дискового пространства. \todo{Файлы в формате .csv и .parquet, содержащие тестовые данные, можно найти по ссылке...}
+
+\todo{Также были созданы индексы в тестовой таблице...}
+
+При сравнении скорости работы различных подходов использовались следующие запросы:
+\begin{enumerate}
+    \item \todo{большой аналитический запрос};
+    \item запрос, \todo{опирающийся на/использующий индексы};
+    \item \todo{обычный \enquote{SELECT *} запрос}.
+\end{enumerate}
+
+\todo{Под \postgresql{} понимаем "классический"... Под выражением \enquote{\pgduckdb{} и таблица} будем подразумевать... Под \enquote{\pgduckdb{} и \parquet{}}... Временем выполнения запроса считаем величину...}
 
 
 \subsection{Исследовательские вопросы}
 
 \begin{description}
     \item[RQ1]: насколько использование формата данных \parquet{} ускоряет выполнение запросов в \postgresql{}?
-    \item[RQ2]: \todo{todo?}
+    \item[RQ2]: при какой конфигурации использование \pgduckdb{} дает замедление в выполнении запросов?
     \item[RQ3]: \todo{todo?}
 \end{description}
 
@@ -30,4 +41,78 @@
 \todo{За метрику берем время выполнения запроса в psql}
 
 \subsection{Результаты}
+
+\begin{table}[h]
+\centering
+\caption{Результаты выполнения аналитического запроса.}
+\label{tab:time}
+\begin{tabular}{|c|c|}
+\hline
+Конфигурация & $t$, мс \\
+\hline
+\hline
+\postgresql{} & 27730 ± 90 \\
+\hline
+\pgduckdb{} и таблица & 11410 ± 40 \\
+\hline
+\pgduckdb{} и \parquet{} & 1938 ± 5  \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Результаты выполнения запроса с индексом.}
+\label{tab:time}
+\begin{tabular}{|c|c|}
+\hline
+Конфигурация & $t$, мс \\
+\hline
+\hline
+\postgresql{} & 1.023 ± 0.010 \\
+\hline
+\pgduckdb{} и таблица & 109.9 ± 1.0 \\
+\hline
+\pgduckdb{} и \parquet{} & 1669 ± 4  \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Результаты выполнения select-запроса.}
+\label{tab:time}
+\begin{tabular}{|c|c|}
+\hline
+Конфигурация & $t$, мс \\
+\hline
+\hline
+\postgresql{} & 11190 ± 70 \\
+\hline
+\pgduckdb{} и таблица & 18380 ± 40  \\
+\hline
+\pgduckdb{} и \parquet{} & 5025 ± 11  \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/chart-big-query.png}
+    \caption{график времени выполнения аналитического запроса}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/chart-select.png}
+    \caption{график времени выполнения \enquote{SELECT *} запроса}
+\end{figure}
+
+\todo{Комментарии к таблицам}
+
+\todo{Графики? Для наглядности}
+
+
 \subsubsection{RQ1} \todo{Пояснения}
+
+\subsubsection{RQ2} \todo{Пояснения}
