@@ -12,6 +12,7 @@
     \item ОЗУ: 16GB
     \item ОС: Ubuntu 22.04.4 LTS
     \item \postgresql{} 18.1 (Ubuntu 18.1-1.pgdg22.04+2)
+    \item \pgduckdb{} \todo{такой-то коммит с ветки master}
 \end{itemize}
 
 Для проведения эксперимента была создана тестовая таблица, состоящая из 10 столбцов и 100 миллионов строк, занимающая 12Гб места на диске. \todo{Схема таблицы? Ссылка на код заполнения?} Такие размеры необходимы для того, чтобы показать преимущество использования \pgduckdb{}: чем больше данных, тем эффективнее работа \pgduckdb{} при \olap{}-нагрузке. Эти данные также были конвертированы в формат данных \parquet{} с использованием \pgparquet{} --- итоговый .parquet файл занимает 2Гб дискового пространства. \todo{Файлы в формате .csv и .parquet, содержащие тестовые данные, можно найти по ссылке...}
@@ -25,7 +26,13 @@
     \item \todo{обычный \enquote{SELECT *} запрос}.
 \end{enumerate}
 
-\todo{Под \postgresql{} понимаем "классический"... Под выражением \enquote{\pgduckdb{} и таблица} будем подразумевать... Под \enquote{\pgduckdb{} и \parquet{}}... Временем выполнения запроса считаем величину...}
+\todo{Различные конфигурации:}
+\begin{enumerate}
+    \item \enquote{\postgresql{}}~--- \enquote{классический} \postgresql{} версии 18.1 без аналитических расширений, работающий с данными, представленными в стандартном для \sql{} \todo{виде (таблицах);}
+    \item \enquote{\pgduckdb{} и таблица}~--- \postgresql{} с использованием расширения \pgduckdb{} (в конфигурации \postgresql{} предварительно устанавливается \todo{опция} \foreignquote{english}{pgduckdb.force\_execution=true}), запросы всё так же выполняются над таблицей;
+    \item \enquote{\pgduckdb{} и \parquet{}}~--- \postgresql{} с использованием расширения \pgduckdb{}, запросы выполняются над .parquet файлом.
+\end{enumerate}
+
 
 
 \subsection{Исследовательские вопросы}
@@ -33,19 +40,18 @@
 \begin{description}
     \item[RQ1]: насколько использование формата данных \parquet{} ускоряет выполнение запросов в \postgresql{}?
     \item[RQ2]: при какой конфигурации использование \pgduckdb{} дает замедление в выполнении запросов?
-    \item[RQ3]: \todo{todo?}
 \end{description}
 
 
 \subsection{Метрики}
-\todo{За метрику берем время выполнения запроса в psql}
+В данной серии экспериментов за метрику принимается время выполнения запроса в миллисекундах. \todo{Данное время получается в \postgresql{} использованием мета-команды} \verb=\timing on= \todo{ссылка/сноска}
 
 \subsection{Результаты}
 
 \begin{table}[h]
 \centering
 \caption{Результаты выполнения аналитического запроса.}
-\label{tab:time}
+\label{tab:bigquery}
 \begin{tabular}{|c|c|}
 \hline
 Конфигурация & $t$, мс \\
@@ -63,7 +69,7 @@
 \begin{table}[h]
 \centering
 \caption{Результаты выполнения запроса с индексом.}
-\label{tab:time}
+\label{tab:index}
 \begin{tabular}{|c|c|}
 \hline
 Конфигурация & $t$, мс \\
@@ -81,7 +87,7 @@
 \begin{table}[h]
 \centering
 \caption{Результаты выполнения select-запроса.}
-\label{tab:time}
+\label{tab:select}
 \begin{tabular}{|c|c|}
 \hline
 Конфигурация & $t$, мс \\
@@ -100,19 +106,23 @@
     \centering
     \includegraphics[width=0.8\textwidth]{figures/chart-big-query.png}
     \caption{график времени выполнения аналитического запроса}
+    \label{fig:bigquery}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/chart-select.png}
     \caption{график времени выполнения \enquote{SELECT *} запроса}
+    \label{fig:select}
 \end{figure}
 
-\todo{Комментарии к таблицам}
-
-\todo{Графики? Для наглядности}
+\todo{Комментарии к таблицам? Или о том, как проводились эксперименты?}
 
 
-\subsubsection{RQ1} \todo{Пояснения}
+\subsubsection{RQ1}
+Как можно видеть из \todo{таблицы \ref{tab:bigquery} и рис. \ref{fig:bigquery}}, использование \pgduckdb{} при выполнении аналитических запросов дает существенный выигрыш в скорости: \todo{над таблицей} \pgduckdb{} работает быстрее \postgresql{} в 2.4 раза; \todo{если же при этом еще использовать представление данных в формате \parquet{}}, аналитический запрос выполняется в 14.3 раз быстрее в сравнении с \enquote{классическим} подходом \postgresql{}.
 
-\subsubsection{RQ2} \todo{Пояснения}
+Также стоит заметить, что выполнение \todo{про select psql vs pgduckdb+parquet}
+
+\subsubsection{RQ2}
+Исходя из результатов, представленных в \todo{таблице \ref{tab:index}}, можно заключить, что \todo{при должном построении индексов и выполнении запросов, направленных на "поиск", стандартная конфигурация \postgresql{} все еще дает значительно лучшие результаты: \pgduckdb{} приводит к замедлению в более, чем 100 раз, на таблицах и к замедлению более, чем в 1500 раз, при использовании формата данных \parquet{}.}
