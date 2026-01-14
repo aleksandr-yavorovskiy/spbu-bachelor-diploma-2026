@@ -4,14 +4,32 @@
 \section{Обзор}
 \label{sec:relatedworks}
 
-\subsection{Обзор существующих решений}
-\parquet{}
-\pgparquet{}
-\pgduckdb{}
-Плюсы и минусы pg\_duckdb
+\subsection{\oltp{} и \olap{}}
+\todo{Разница, движение в сторону унификации в postgrespro, типичные примеры \oltp{} и \olap{} нагрузок и инструментов для них}
 
 \subsection{Обзор используемых технологий}
-\postgresql{}
+\subsubsection{\postgresql{}}
+\postgresql{}~---
+
+\subsubsection{Формат данных \parquet{}}
+\parquet{}~---
+
+\subsubsection{\duckdb{}}
+
+\subsection{Обзор существующих решений}
+\subsubsection{\pgparquet{}}
+\pgparquet{} \todo{ссылка}~--- расширение для \postgresql{} с открытым исходным кодом, позволяющее работать с файлами \dotparquet{} как на чтение, так и на запись, используя \foreignquote{english}{COPY TO} и \foreignquote{english}{COPY FROM} команды.
+
+\todo{Данный инструмент также имеет возможность читать метаданные \dotparquet{} файлов}
+
+\subsubsection{\pgduckdb{}}
+\pgduckdb{} \todo{ссылка} является расширением, интегрирующим аналитический движок \duckdb{} непосредственно в \postgresql{}, что позволяет производить высоконагруженную \olap{}-обработку данных \todo{прямо в самой \dbms{}}. \todo{Данное ПО } также предоставляет возможности чтения Data Lake (\enquote{озеро данных}) и \parquet{} файлов, \todo{в том числе из удаленных (\foreignquote{english}{remote}) S3, GCS, Azure и R2}.
+
+\todo{MotherDuck integration}
+
+\todo{Плюсы и минусы \pgduckdb{}}
+
+
 
 
 
