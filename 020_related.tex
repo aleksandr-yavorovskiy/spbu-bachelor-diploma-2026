@@ -4,19 +4,44 @@
 \section{Обзор}
 \label{sec:relatedworks}
 
-\subsection{\oltp{} и \olap{}}
+\subsection{\oltp{}, \olap{} и \htap{}}
 \todo{Разница, движение в сторону унификации в postgrespro, типичные примеры \oltp{} и \olap{} нагрузок и инструментов для них}
+\oltp{} (Online Transaction Processing, интерактивная транзакционная обработка) является методом организации работы \dbms{}, при котором
+Преимуществами данного подхода являются целостность данных в любой момент времени и надёжность системы, \todo{достигаемые благодаря использованию транзакций}. \todo{Можно упомянуть ACID}. Однако существенным недостатком \todo{oltp-парадигмы} является \todo{неоптимизированность под выполнение аналитических запросов над большим массивом данных}
+
+В свою очередь \olap{} (Online Analytical Processing, интерактивная аналитическая обработка) \todo{....}
+
+\todo{Один из способов организации работы с информацией:}
+\begin{enumerate}
+    \item \oltp{}-система \enquote{собирает} данные путем выполнения большого количества маленьких транзакций;
+    \item затем полученная информация \todo{конвертируется в формат, удобный для аналитики (например, \parquet{})};
+    \item после чего \olap{}-система производит необходимую аналитическую обработку данных.
+\end{enumerate}
+
+\todo{Такой способ имеет определенные недостатки: получение ответа на интересующие вопросы с \enquote{задержкой}; необходимость хранить данные в разном виде (размеры могут превышать десятки и сотни Гб), (?что влечет за собой дополнительные расходы памяти...?); затраты вычислительных ресурсов на конвертацию данных}. \todo{Упомянуть ETL}
+
+\htap{} (Hybrid Transaction/Analytical Processing, гибридная транзакционная/аналитическая обработка) \todo{...}
+\url{https://dl.acm.org/doi/epdf/10.1145/3514221.3522565}
 
 \subsection{Обзор используемых технологий}
 \subsubsection{\postgresql{}}
-\postgresql{} \todo{(мб ссылаться на доку не здесь) \cite{postgresqlDocumentation}}~---
+\postgresql{} \todo{(мб ссылаться на доку не здесь) \cite{postgresqlDocumentation}}~--- \todo{...}
+
+\todo{Row-storage}
 
 \subsubsection{Формат данных \parquet{}}
 \parquet{}~---
 
+Один из примеров использования \parquet{}~--- WikiParq \todo{Сослаться:\url{https://lup.lub.lu.se/search/files/7671984/31_Paper_3.pdf}. Раскрыть мысль}
+
 \todo{ссылки на: документацию, спецификацию, Dremel: An interactive... (36632.pdf https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/36632.pdf)}
 
 \subsubsection{\duckdb{}}
+\todo{Column-storage}
+
+\todo{Predicate pushdown}
+
+
 
 \subsection{Обзор существующих решений}
 \subsubsection{\pgparquet{}}
@@ -27,10 +52,11 @@
 \subsubsection{\pgduckdb{}}
 \pgduckdb{} \cite{pgduckdb} является расширением, интегрирующим аналитический движок \duckdb{} непосредственно в \postgresql{}, что позволяет производить высоконагруженную \olap{}-обработку данных \todo{прямо в самой \dbms{}}. \todo{Данное ПО } также предоставляет возможности чтения Data Lake (\enquote{озеро данных}) и \parquet{} файлов, \todo{в том числе из удаленных (\foreignquote{english}{remote}) S3, GCS, Azure и R2}.
 
-\todo{MotherDuck integration}
+\todo{?? MotherDuck integration}
 
 \todo{Плюсы и минусы \pgduckdb{}}
 
+\todo{????? \pgduckdb{} быстрее, потому что читает те же данные, но не через PostgreSQL executor, а через векторизованный DuckDB executor, который обходит per-row накладные расходы.}
 
 
 
