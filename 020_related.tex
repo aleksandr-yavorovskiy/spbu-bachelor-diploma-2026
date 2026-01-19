@@ -9,7 +9,7 @@
 \oltp{} (Online Transaction Processing, интерактивная транзакционная обработка) является методом организации работы \dbms{}, при котором
 Преимуществами данного подхода являются целостность данных в любой момент времени и надёжность системы, \todo{достигаемые благодаря использованию транзакций}. \todo{Можно упомянуть ACID}. Однако существенным недостатком \todo{oltp-парадигмы} является \todo{неоптимизированность под выполнение аналитических запросов над большим массивом данных}
 
-В свою очередь \olap{} (Online Analytical Processing, интерактивная аналитическая обработка) \todo{....}
+В свою очередь \olap{} (Online Analytical Processing, интерактивная аналитическая обработка) \todo{расписать дальше}
 
 \todo{Один из способов организации работы с информацией:}
 \begin{enumerate}
@@ -20,8 +20,8 @@
 
 \todo{Такой способ имеет определенные недостатки: получение ответа на интересующие вопросы с \enquote{задержкой}; необходимость хранить данные в разном виде (размеры могут превышать десятки и сотни Гб), (?что влечет за собой дополнительные расходы памяти...?); затраты вычислительных ресурсов на конвертацию данных}. \todo{Упомянуть ETL}
 
-\htap{} (Hybrid Transaction/Analytical Processing, гибридная транзакционная/аналитическая обработка) \todo{...}
-\url{https://dl.acm.org/doi/epdf/10.1145/3514221.3522565}
+\htap{} (Hybrid Transaction/Analytical Processing, гибридная транзакционная/аналитическая обработка) \todo{расписать дальше}
+\cite{HtapDbPaper}
 
 \subsection{Обзор используемых технологий}
 \subsubsection{\postgresql{}}
@@ -30,16 +30,33 @@
 \todo{Row-storage}
 
 \subsubsection{Формат данных \parquet{}}
-\parquet{}~---
+\parquet{} (также \apacheparquet{}) \cite{apacheParquetDocumentation} является колоночно-ориентированным форматом хранения данных, созданным \todo{(? компанией Apache)} в \todo{таком-то году для \apachehadoop{}}\footnote{URL: \url{https://hadoop.apache.org/} (дата обращения: \DTMdate{2025-12-30}).}. \todo{Однако со временем} данный формат стал использоваться во многих аналитических системах \todo{(примеры) ввиду того, что, благодаря своей архитектуре, позволяет добиваться значительного сжатия размера файла данных и ускорения обработки информации.}
 
-Один из примеров использования \parquet{}~--- WikiParq \todo{Сослаться:\url{https://lup.lub.lu.se/search/files/7671984/31_Paper_3.pdf}. Раскрыть мысль}
+\todo{Сослаться на спецификацию: \cite{apacheParquetSpecification}}.
 
-\todo{ссылки на: документацию, спецификацию, Dremel: An interactive... (36632.pdf https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/36632.pdf)}
+\todo{Переформулировать: uses the record shredding and assembly algorithm described in the Dremel paper}
+
+\parquet{} \todo{используется, например, в WikiParq} \cite{WikiParqPaper}~--- ... \todo{Раскрыть мысль}
+
+\todo{Сослаться на dremel paper: \cite{DremelPaper}}
+
+\todo{Сослаться на картинку архитектуры } \ref{fig:parquetFileLayout}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{parquetFileLayout.png}
+    \caption{Структура \parquet{} файла. Источник: \url{https://raw.github.com/apache/parquet-format/master/doc/images/FileLayout.gif} (дата обращения: \DTMdate{2025-12-30})}
+    \label{fig:parquetFileLayout}
+\end{figure}
+
 
 \subsubsection{\duckdb{}}
 \todo{Column-storage}
 
+
 \todo{Predicate pushdown}
+
+\todo{DuckDB API}
 
 
 
@@ -59,6 +76,12 @@
 \todo{????? \pgduckdb{} быстрее, потому что читает те же данные, но не через PostgreSQL executor, а через векторизованный DuckDB executor, который обходит per-row накладные расходы.}
 
 
+\subsubsection{\parquetfdw{}}
+\todo{\parquetfdw{} \cite{parquetfdw} Foreign Data Wrapper}
+
+\todo{!!! ОБЯЗАТЕЛЬНО ПОПРОБОВАТЬ ЧИТАТЬ ЧЕРЕЗ НЕГО! МБ ЭТО ТО, ЧТО НАДО!}
+
 
 
 \subsection{Выводы}
+\todo{\postgresql{}~--- \oltp{} \dbms{} с row-storage принципом. \parquet{}~--- быстро и удобно. \duckdb{}~--- аналитический движок... Расширения \pgparquet{} и \pgduckdb{} предоставляют возможности для работы с \parquet{} файлами в \postgresql{}.}
