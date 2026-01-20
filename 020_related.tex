@@ -6,8 +6,8 @@
 
 \subsection{\oltp{}, \olap{} и \htap{}}
 \todo{Разница, движение в сторону унификации в postgrespro, типичные примеры \oltp{} и \olap{} нагрузок и инструментов для них}
-\oltp{} (Online Transaction Processing, интерактивная транзакционная обработка) является методом организации работы \dbms{}, при котором
-Преимуществами данного подхода являются целостность данных в любой момент времени и надёжность системы, \todo{достигаемые благодаря использованию транзакций}. \todo{Можно упомянуть ACID}. Однако существенным недостатком \todo{oltp-парадигмы} является \todo{неоптимизированность под выполнение аналитических запросов над большим массивом данных}
+
+\oltp{} (Online Transaction Processing, интерактивная транзакционная обработка) является методом организации работы \dbms{}, при котором \todo{дописать...} Преимуществами данного подхода являются целостность данных в любой момент времени и надёжность системы, \todo{достигаемые благодаря использованию транзакций}. \todo{Можно упомянуть ACID}. Однако существенным недостатком \todo{\oltp{}-парадигмы} является \todo{неоптимизированность под выполнение аналитических запросов над большим массивом данных}
 
 В свою очередь \olap{} (Online Analytical Processing, интерактивная аналитическая обработка) \todo{расписать дальше}
 
@@ -34,13 +34,35 @@
 
 \todo{Сослаться на спецификацию: \cite{apacheParquetSpecification}}.
 
-\todo{Переформулировать: uses the record shredding and assembly algorithm described in the Dremel paper}
+\todo{Структуру \parquet{} файла можно увидеть на рис.} \ref{fig:parquetFileLayout}.
+\todo{Само содержание файла \parquet{} можно разбить на следующие группы: заголовок, \enquote{несущая} информация, метаданные}.
+
+Заголовок файла содержит \enquote{магическое число} (Magic number), т.н. \foreignquote{english}{PAR1}~--- четырехбайтовое значение
+
+\todo{\enquote{Несущая} информация состоит из:}
+\begin{itemize}
+    \item row groups
+    \item column chunks
+    \item Страница~--- \enquote{минимальная единица} хранения данных.
+\end{itemize}
+
+Блок метаданных, называемый \foreignquote{english}{footer} (\enquote{нижняя сноска}) и располагающийся после \todo{\enquote{несущей}} информации, состоит из:
+\begin{itemize}
+    \item версии
+    \item схемы
+    \item k/v pairs
+    \item метаданных для каждой row group, которые, в свою очередь, содержат метаданные для каждого column chunk
+    \item длина footer
+    \item
+\end{itemize}
+
+\todo{Кратко что такое thrift и про parquet.thrift.\footnote{URL: \url{https://github.com/apache/parquet-format/blob/master/src/main/thrift/parquet.thrift} (дата обращения \DTMdate{2025-12-30}).}}
+
+\todo{Переформулировать: использует алгоритм дробления и сборки записей, описанный в статье о \dremel{} \cite{DremelPaper}~--- интерактивной аналитической системе, разработанной \google{}}
 
 \parquet{} \todo{используется, например, в WikiParq} \cite{WikiParqPaper}~--- ... \todo{Раскрыть мысль}
 
-\todo{Сослаться на dremel paper: \cite{DremelPaper}}
 
-\todo{Сослаться на картинку архитектуры } \ref{fig:parquetFileLayout}
 
 \begin{figure}
     \centering
