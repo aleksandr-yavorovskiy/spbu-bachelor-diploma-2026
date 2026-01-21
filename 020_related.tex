@@ -32,18 +32,15 @@
 \subsubsection{Формат данных \parquet{}}
 \parquet{} (также \apacheparquet{}) \cite{apacheParquetDocumentation} является колоночно-ориентированным форматом хранения данных, созданным \todo{(? компанией Apache)} в \todo{таком-то году для \apachehadoop{}}\footnote{URL: \url{https://hadoop.apache.org/} (дата обращения: \DTMdate{2025-12-30}).}. \todo{Однако со временем} данный формат стал использоваться во многих аналитических системах \todo{(примеры) ввиду того, что, благодаря своей архитектуре, позволяет добиваться значительного сжатия размера файла данных и ускорения обработки информации.}
 
-\todo{Сослаться на спецификацию: \cite{apacheParquetSpecification}}.
+\todo{Само содержание файла \parquet{}, представленное на рис. \ref{fig:parquetFileLayout}, можно разбить на следующие части: заголовок, \enquote{несущая} информация, метаданные}. Благодаря parquet.thrift\footnote{URL: \url{https://github.com/apache/parquet-format/blob/master/src/main/thrift/parquet.thrift} (дата обращения \DTMdate{2025-12-30}).}, являющемуся \todo{частью} спецификации формата \cite{apacheParquetSpecification} и содержащему \todo{детальное описание} структуры \todo{\parquet{} файла}, можно \todo{заключить следующее...}
 
-\todo{Структуру \parquet{} файла можно увидеть на рис.} \ref{fig:parquetFileLayout}.
-\todo{Само содержание файла \parquet{} можно разбить на следующие группы: заголовок, \enquote{несущая} информация, метаданные}.
+Заголовок файла содержит \enquote{магическое число} (Magic number), т.н. \foreignquote{english}{PAR1}~--- \todo{четырехбайтовое значение...}
 
-Заголовок файла содержит \enquote{магическое число} (Magic number), т.н. \foreignquote{english}{PAR1}~--- четырехбайтовое значение
-
-\todo{\enquote{Несущая} информация состоит из:}
+\todo{\enquote{Несущая} информация состоит из следующих \enquote{частей}:}
 \begin{itemize}
-    \item row groups
-    \item column chunks
-    \item Страница~--- \enquote{минимальная единица} хранения данных.
+    \item Row groups (группы строк)~--- \todo{куски} информации, получаемые \todo{\enquote{разрезанием} таблицы данных по горизонтали}
+    \item Column chunks (колоночные \todo{чанки})~---
+    \item Page (страница)~--- \enquote{минимальная единица} хранения данных. Column chunk состоит из нескольких страниц, в каждой из которых хранится \todo{заголовок страницы, repetition levels, definition levels, values}. \todo{Страницы бывают следующих видов: DATA\_PAGE, INDEX\_PAGE, DICTIONARY\_PAGE, DATA\_PAGE\_V2. У каждой из них свой формат заголовка}
 \end{itemize}
 
 Блок метаданных, называемый \foreignquote{english}{footer} (\enquote{нижняя сноска}) и располагающийся после \todo{\enquote{несущей}} информации, состоит из:
@@ -52,13 +49,23 @@
     \item схемы
     \item k/v pairs
     \item метаданных для каждой row group, которые, в свою очередь, содержат метаданные для каждого column chunk
+    \begin{itemize}
+        \item \todo{статистика: min/max, кол-во null значений, кол-во различных значений}
+    \end{itemize}
     \item длина footer
     \item
 \end{itemize}
 
-\todo{Кратко что такое thrift и про parquet.thrift.\footnote{URL: \url{https://github.com/apache/parquet-format/blob/master/src/main/thrift/parquet.thrift} (дата обращения \DTMdate{2025-12-30}).}}
+\todo{Кратко что такое thrift}
 
 \todo{Переформулировать: использует алгоритм дробления и сборки записей, описанный в статье о \dremel{} \cite{DremelPaper}~--- интерактивной аналитической системе, разработанной \google{}}
+
+\todo{Использует различные алгоритмы сжатия информации: SNAPPY, GZIP, LZO, BROTLI, LZ4\_RAW}
+\todo{Мб про поддерживаемые encodings и про соответствующую метадату}
+\todo{schema...???}
+\todo{?!!!Column, row and page index???}
+\todo{bloom filter???}
+\todo{Мб вставить картинку \url{https://github.com/apache/parquet-format/blob/master/doc/images/FileFormat.gif}}
 
 \parquet{} \todo{используется, например, в WikiParq} \cite{WikiParqPaper}~--- ... \todo{Раскрыть мысль}
 
@@ -67,7 +74,7 @@
 \begin{figure}
     \centering
     \includegraphics[width=0.7\linewidth]{parquetFileLayout.png}
-    \caption{Структура \parquet{} файла. Источник: \url{https://raw.github.com/apache/parquet-format/master/doc/images/FileLayout.gif} (дата обращения: \DTMdate{2025-12-30})}
+    \caption{Структура \parquet{} файла. Источник: \url{https://raw.github.com/apache/parquet-format/master/doc/images/FileLayout.gif} (дата обращения: \DTMdate{2025-12-30}).}
     \label{fig:parquetFileLayout}
 \end{figure}
 
@@ -107,3 +114,25 @@
 
 \subsection{Выводы}
 \todo{\postgresql{}~--- \oltp{} \dbms{} с row-storage принципом. \parquet{}~--- быстро и удобно. \duckdb{}~--- аналитический движок... Расширения \pgparquet{} и \pgduckdb{} предоставляют возможности для работы с \parquet{} файлами в \postgresql{}.}
+
+\todo{Переформулировать последний пункт таблицы, выровнять. Придумать название первому столбцу}
+
+\begin{table}[h]
+\centering
+\caption{\todo{Название.}}
+\label{tab:overviewResults}
+\begin{tabular}{|c|c|c|c|}
+\hline
+?????? & \pgparquet{} & \parquetfdw & \pgduckdb{} \\
+\hline
+\hline
+Чтение файла \parquet{} & +? & ? & + \\
+\hline
+Запись в файл \parquet{} & + & ? & ? \\
+\hline
+Чтение метаданных \parquet{} & + & ? & - \\
+\hline
+Выполнение аналитических запросов & - & ? & + \\
+\hline
+\end{tabular}
+\end{table}
