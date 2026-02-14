@@ -4,134 +4,493 @@
 \section{Обзор}
 \label{sec:relatedworks}
 
-\subsection{\oltp{}, \olap{} и \htap{}}
-\oltp{} (Online Transaction Processing, интерактивная транзакционная обработка) является методом организации работы \dbms{}, при котором данные обрабатываются преимущественно через большое количество коротких транзакций, каждая из которых выполняет небольшие операции чтения и записи. Преимуществами данного подхода являются целостность данных в любой момент времени и надёжность системы, достигаемые благодаря свойствам ACID (Atomicity, Consistency, Isolation, Durability). Эти свойства гарантируют, что каждая транзакция выполняется полностью или не выполняется вовсе, данные остаются согласованными, параллельные транзакции не мешают друг другу, а изменения сохраняются даже при сбоях системы. Однако существенным недостатком \oltp{}-парадигмы является неоптимизированность для выполнения аналитических запросов над большими массивами данных, так как системы ориентированы на быстрое выполнение маленьких транзакций, а не на обработку больших наборов информации.
+\subsection{Сравнение шрифтов}
 
-В свою очередь, \olap{} (Online Analytical Processing, интерактивная аналитическая обработка) ориентирована на анализ больших массивов данных и сложные запросы, включающие агрегации, группировки и вычисления статистик.
+\subsubsection{\todo{Выделение важных пунктов сравнения}}
+\todo{Здесь про то, как выделялись категории сравнения}
 
-Один из способов организации работы с информацией состоит из нескольких этапов:
-\begin{enumerate}
-    \item \oltp{}-система \enquote{собирает} данные путем выполнения большого количества коротких транзакций;
-    \item затем полученная информация обрабатывается и конвертируется в формат, удобный для аналитики (например, \parquet{}), с использованием процессов ETL (Extract, Transform, Load), которые извлекают, преобразуют и загружают данные в \olap{}-хранилище;
-    \item после чего \olap{}-система производит необходимую аналитическую обработку данных.
-\end{enumerate}
+\todo{\enquote{Minimum minimorum}: церковнославянский алфавит и знаки препинания~--- без них толком никакую информацию передать не удастся.}
 
-Такой подход имеет определённые недостатки: получение ответа на интересующие вопросы происходит с задержкой, так как данные сначала нужно собрать и преобразовать; необходимо хранить данные в разных форматах, что может занимать десятки или сотни гигабайт памяти и влечёт дополнительные расходы на её поддержку; также стоит отметить, что сам процесс конвертации может приводить к значительным затратам вычислительных ресурсов системы.
+\todo{\enquote{Базовый стандарт}: дополнительные буквы из старославянского языка и диакритические знаки. Сюда входит также титло, без которого невозможно написание числительных...}
 
-\htap{} (Hybrid Transaction/Analytical Processing, гибридная транзакционная/аналитическая обработка) объединяет возможности \oltp{} и \olap{} в одной системе, позволяя одновременно выполнять транзакционные и аналитические запросы над одними и теми же данными. Это сокращает задержку получения аналитических результатов и устраняет необходимость в регулярной конвертации и дублировании данных. Основные преимущества \htap{} включают более оперативное принятие решений, снижение затрат на хранение данных и упрощение архитектуры информационных систем \cite{HtapDbPaper}.
+\todo{\enquote{Важное дополнение}: надстрочные буквы, используемые в буквотитлах~--- символы, обладающие большой значимостью, но далеко не во всех шрифтах поддерживаемые. Буквотитло используется для написания сокращенных форм слов...}
 
+\todo{\enquote{Проверка текстом}~--- написанные по отдельности, символы могут выглядеть \enquote{вполне прилично}, но при реальном использовании может случиться так, что текст \enquote{поедет}: например, диакритические знаки перекроют буквы. Также \enquote{проверка текстом} позволяет оценить критичность отсутствия/\enquote{неверного} написания того или иного символа в конкретном шрифте.}
+\subsubsection{Церковнославянский алфавит}
+\todo{Как можно видеть из Таблицы \ref{tab:church}, практически все рассматриваемые шрифты успешно справляются с отображением \enquote{базового набора} для передачи информации~--- церковнославянского алфавита. Стоит отметить, однако, что в сравнении по данной категории шрифт \flavuniversalfont{} имеет небольшой недостаток: в нем отсутствует изображение для букв \enquote{монографический (?лигатурный) ук} (U+A64A, U+A64B) и \enquote{йотированный аз (?или а йотированный)} (U+A656, U+A657).}
 
-\subsection{Обзор используемых технологий}
-\subsubsection{\postgresql{}}
-\postgresql{} \cite{postgresqlDocumentation}~--- объектно-реляционная \dbms{} с открытым исходным кодом, поддерживающая расширяемость, большой набор типов данных и стандарты \sql{}. Данное ПО активно используется для выполнения \oltp{}- и \olap{}-нагрузок в различных приложениях благодаря своей стабильности, производительности и надежности.
-
-\postgresql{} использует хранение данных по строкам (т.н. \foreignquote{english}{row-oriented storage}), при котором таблица хранится на диске как последовательность строк. Такой подход оптимален для транзакционных рабочих нагрузок (\oltp{}), где преобладают операции вставки, обновления и выборки отдельных строк. Однако для аналитических задач (\olap{}), требующих обработки больших массивов данных и выполнения агрегатных запросов по столбцам, row-oriented хранение является менее эффективным по сравнению с column-oriented решениями, при которых данные из таблицы хранятся на диске не по строкам, а по столбцам.
+\todo{TODO: Насколько это плохо, что нет двух букв. Вроде а йотированный вообще не из церковнославянского\footnote{см. \url{https://ru.wikipedia.org/wiki/А_йотированное}}}
 
 
-\subsubsection{Формат данных \parquet{}}
-\parquet{} (также \apacheparquet{}) \cite{apacheParquetDocumentation} является колоночно-ориентированным форматом хранения данных, первоначально созданным в 2013 году для \apachehadoop{}\footnote{Набор программных решений для работы с Big Data. URL: \url{https://hadoop.apache.org/} (дата обращения: \DTMdate{2025-12-30}).}. Со временем данный формат стал широко использоваться во многих аналитических системах (на\-пример, \apachespark{}, \googlecloudstorage{}, \wikiparq{} \cite{WikiParqPaper}) ввиду того, что его архитектура позволяет значительно сжимать размер файлов и ускорять обработку данных за счёт колоночного хранения и эффективного кодирования значений.
+\begin{center}\begin{table}[H]
+    \caption{Церковнославянский алфавит}
+    \label{tab:church}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
+\hline
+0410 0430 & {\bukyvede Аа} & {\flaviusuniversal Аа} & {\ponomarunicode Аа} & {\menaionunicode Аа}\\
+\hline
+0411 0431 & {\bukyvede Бб} & {\flaviusuniversal Бб} & {\ponomarunicode Бб} & {\menaionunicode Бб}\\
+\hline
+0412 0432 & {\bukyvede Вв} & {\flaviusuniversal Вв} & {\ponomarunicode Вв} & {\menaionunicode Вв}\\
+\hline
+0413 0433 & {\bukyvede Гг} & {\flaviusuniversal Гг} & {\ponomarunicode Гг} & {\menaionunicode Гг}\\
+\hline
+0414 0434 & {\bukyvede Дд} & {\flaviusuniversal Дд} & {\ponomarunicode Дд} & {\menaionunicode Дд}\\
+\hline
+0415 0435 & {\bukyvede Ее} & {\flaviusuniversal Ее} & {\ponomarunicode Ее} & {\menaionunicode Ее}\\
+\hline
+0404 0454 & {\bukyvede Єє} & {\flaviusuniversal Єє} & {\ponomarunicode Єє} & {\menaionunicode Єє}\\
+\hline
+0416 0436 & {\bukyvede Жж} & {\flaviusuniversal Жж} & {\ponomarunicode Жж} & {\menaionunicode Жж}\\
+\hline
+0405 0455 & {\bukyvede Ѕѕ} & {\flaviusuniversal Ѕѕ} & {\ponomarunicode Ѕѕ} & {\menaionunicode Ѕѕ}\\
+\hline
+0417 0437 & {\bukyvede Зз} & {\flaviusuniversal Зз} & {\ponomarunicode Зз} & {\menaionunicode Зз}\\
+\hline
+0418 0438 & {\bukyvede Ии} & {\flaviusuniversal Ии} & {\ponomarunicode Ии} & {\menaionunicode Ии}\\
+\hline
+% 0419 0439 & {\bukyvede Йй} & {\flaviusuniversal Йй} & {\ponomarunicode Йй} & {\menaionunicode Йй}\\
+% \hline
+0406 0457 & {\bukyvede Ії} & {\flaviusuniversal Ії} & {\ponomarunicode Ії} & {\menaionunicode Ії}\\
+\hline
+041A 043A & {\bukyvede Кк} & {\flaviusuniversal Кк} & {\ponomarunicode Кк} & {\menaionunicode Кк}\\
+\hline
+% 040B 045B & {\bukyvede Ћћ} & {\flaviusuniversal Ћћ} & {\ponomarunicode Ћћ} & {\menaionunicode Ћћ}\\
+% \hline
+041B 043B & {\bukyvede Лл} & {\flaviusuniversal Лл} & {\ponomarunicode Лл} & {\menaionunicode Лл}\\
+\hline
+041C 043C & {\bukyvede Мм} & {\flaviusuniversal Мм} & {\ponomarunicode Мм} & {\menaionunicode Мм}\\
+\hline
+041D 043D & {\bukyvede Нн} & {\flaviusuniversal Нн} & {\ponomarunicode Нн} & {\menaionunicode Нн}\\
+\hline
+041E 043E & {\bukyvede Оо} & {\flaviusuniversal Оо} & {\ponomarunicode Оо} & {\menaionunicode Оо}\\
+\hline
+0460 0461 & {\bukyvede Ѡѡ} & {\flaviusuniversal Ѡѡ} & {\ponomarunicode Ѡѡ} & {\menaionunicode Ѡѡ}\\
+\hline
+041F 043F & {\bukyvede Пп} & {\flaviusuniversal Пп} & {\ponomarunicode Пп} & {\menaionunicode Пп}\\
+\hline
+0420 0440 & {\bukyvede Рр} & {\flaviusuniversal Рр} & {\ponomarunicode Рр} & {\menaionunicode Рр}\\
+\hline
+0421 0441 & {\bukyvede Сс} & {\flaviusuniversal Сс} & {\ponomarunicode Сс} & {\menaionunicode Сс}\\
+\hline
+0422 0442 & {\bukyvede Тт} & {\flaviusuniversal Тт} & {\ponomarunicode Тт} & {\menaionunicode Тт}\\
+\hline
+% 0423 0443 & {\bukyvede Уу} & {\flaviusuniversal Уу} & {\ponomarunicode Уу} & {\menaionunicode Уу}\\
+% \hline
+0478 0479 & {\bukyvede Ѹѹ} & {\flaviusuniversal Ѹѹ} & {\ponomarunicode Ѹѹ} & {\menaionunicode Ѹѹ}\\
+\hline
+A64A A64B & {\bukyvede Ꙋꙋ} & {\flaviusuniversal Ꙋꙋ} & {\ponomarunicode Ꙋꙋ} & {\menaionunicode Ꙋꙋ}\\
+\hline
+0424 0444 & {\bukyvede Фф} & {\flaviusuniversal Фф} & {\ponomarunicode Фф} & {\menaionunicode Фф}\\
+\hline
+0425 0445 & {\bukyvede Хх} & {\flaviusuniversal Хх} & {\ponomarunicode Хх} & {\menaionunicode Хх}\\
+\hline
+047E 047F & {\bukyvede Ѿѿ} & {\flaviusuniversal Ѿѿ} & {\ponomarunicode Ѿѿ} & {\menaionunicode Ѿѿ}\\
+\hline
+0426 0446 & {\bukyvede Цц} & {\flaviusuniversal Цц} & {\ponomarunicode Цц} & {\menaionunicode Цц}\\
+\hline
+0427 0447 & {\bukyvede Чч} & {\flaviusuniversal Чч} & {\ponomarunicode Чч} & {\menaionunicode Чч}\\
+\hline
+0428 0448 & {\bukyvede Шш} & {\flaviusuniversal Шш} & {\ponomarunicode Шш} & {\menaionunicode Шш}\\
+\hline
+0429 0449 & {\bukyvede Щщ} & {\flaviusuniversal Щщ} & {\ponomarunicode Щщ} & {\menaionunicode Щщ}\\
+\hline
+042A 044A & {\bukyvede Ъъ} & {\flaviusuniversal Ъъ} & {\ponomarunicode Ъъ} & {\menaionunicode Ъъ}\\
+\hline
+042B 044B & {\bukyvede Ыы} & {\flaviusuniversal Ыы} & {\ponomarunicode Ыы} & {\menaionunicode Ыы}\\
+\hline
+042C 044C & {\bukyvede Ьь} & {\flaviusuniversal Ьь} & {\ponomarunicode Ьь} & {\menaionunicode Ьь}\\
+\hline
+0462 0463 & {\bukyvede Ѣѣ} & {\flaviusuniversal Ѣѣ} & {\ponomarunicode Ѣѣ} & {\menaionunicode Ѣѣ}\\
+\hline
+042E 044E & {\bukyvede Юю} & {\flaviusuniversal Юю} & {\ponomarunicode Юю} & {\menaionunicode Юю}\\
+\hline
+A656 A657 & {\bukyvede Ꙗꙗ} & {\flaviusuniversal Ꙗꙗ} & {\ponomarunicode Ꙗꙗ} & {\menaionunicode Ꙗꙗ}\\
+\hline
+0466 0467 & {\bukyvede Ѧѧ} & {\flaviusuniversal Ѧѧ} & {\ponomarunicode Ѧѧ} & {\menaionunicode Ѧѧ}\\
+\hline
 
-Само содержание файла \parquet{}, представленное на Рис. \ref{fig:parquetFileLayout}, можно разбить на следующие части: заголовок, основная информация и метаданные. Благодаря файлу \mbox{parquet.thrift}\footnote{URL: \url{https://github.com/apache/parquet-format/blob/master/src/main/thrift/parquet.thrift} (дата обращения \DTMdate{2025-12-30}).}, являющемуся частью спецификации формата \cite{apacheParquetSpecification} и содержащему детальное описание структуры \parquet{} файла, представляется возможным проведение более подробного разбора его составляющих.
+046E 046F & {\bukyvede Ѯѯ} & {\flaviusuniversal Ѯѯ} & {\ponomarunicode Ѯѯ} & {\menaionunicode Ѯѯ}\\
+\hline
+0470 0471 & {\bukyvede Ѱѱ} & {\flaviusuniversal Ѱѱ} & {\ponomarunicode Ѱѱ} & {\menaionunicode Ѱѱ}\\
+\hline
+0472 0473 & {\bukyvede Ѳѳ} & {\flaviusuniversal Ѳѳ} & {\ponomarunicode Ѳѳ} & {\menaionunicode Ѳѳ}\\
+\hline
+0474 0475 & {\bukyvede Ѵѵ} & {\flaviusuniversal Ѵѵ} & {\ponomarunicode Ѵѵ} & {\menaionunicode Ѵѵ}\\
+\hline
+\end{tabular}
+\end{table}\end{center}
 
-Заголовок файла содержит \enquote{магическое число} (Magic number), т.н. \foreignquote{english}{PAR1}~--- четырёхбайтовое значение, позволяющее системе однозначно идентифицировать формат файла.
+\todo{Почему-то йотированный аз (U+A656) во \flavuniversalfont{} \enquote{переехал} на место CYRILLIC LETTER GHE WITH STROKE AND HOOK (U+04FA)}
 
-Основная информация файла \parquet{} состоит из следующих компонентов:
-\begin{itemize}
-    \item Row groups (группы строк)~--- горизонтальные фрагменты таблицы данных, каждый из которых содержит набор строк для эффективной пакетной обработки.
-    \item Column chunks (фрагменты столбцов)~--- вертикальные сегменты внутри row group, содержащие данные столбцов таблицы; каждый column chunk хранит данные отдельно, что позволяет выполнять операции агрегации и выборки по столбцам более эффективно.
-    \item Page (страница)~--- минимальная единица хранения данных внутри column chunk. Страница содержит набор значений одного столбца и необходимую информацию для корректного чтения и декодирования данных. Основными компонентами страницы являются:
-        \begin{itemize}
-            \item Page header~--- заголовок страницы, который содержит информацию о типе страницы, количестве значений, размере закодированных данных и других параметрах, необходимых для декодирования и навигации внутри файла.
-            \item Definition levels и repetition levels (уровни определения и уровни повторения)~--- вспомогательные последовательности целых чисел, используемые для кодирования вложенных и повторяющихся структур данных согласно алгоритму, предложенному в статье о принципах работы аналитической системы \mbox{\dremel{} \cite{DremelPaper}}. Совместное использование данных уровней позволяет представлять вложенные структуры (например, массивы или \json{}-структуры) в виде столбцов без потери информации о самой структуре данных и связях между ее элементами.
-            \item Values~--- часть самих данных столбца изначальной таблицы.
-        \end{itemize}
+\subsubsection{Дополнительные буквы из старославянского языка}
+\begin{center}\begin{table}[H]
+    \caption{Дополнительные буквы из старославянского языка}
+    \label{tab:oldslavic}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
+\hline
+0464 0465 & {\bukyvede Ѥѥ} & {\flaviusuniversal Ѥѥ} & {\ponomarunicode Ѥѥ} & {\menaionunicode Ѥѥ}\\
+\hline
+0468 0469 & {\bukyvede Ѩѩ} & {\flaviusuniversal Ѩѩ} & {\ponomarunicode Ѩѩ} & {\menaionunicode Ѩѩ}\\
+\hline
+046A 046B & {\bukyvede Ѫѫ} & {\flaviusuniversal Ѫѫ} & {\ponomarunicode Ѫѫ} & {\menaionunicode Ѫѫ}\\
+\hline
+047A 047B & {\bukyvede Ѻѻ} & {\flaviusuniversal Ѻѻ} & {\ponomarunicode Ѻѻ} & {\menaionunicode Ѻѻ}\\
+\hline
+% 04FA 04FB & {\bukyvede Ӻӻ} & {\flaviusuniversal Ӻӻ} & {\ponomarunicode Ӻӻ} & {\menaionunicode Ӻӻ}\\
+% \hline
+A640 A641 & {\bukyvede Ꙁꙁ} & {\flaviusuniversal Ꙁꙁ} & {\ponomarunicode Ꙁꙁ} & {\menaionunicode Ꙁꙁ}\\
+\hline
+A642 A643 & {\bukyvede Ꙃꙃ} & {\flaviusuniversal Ꙃꙃ} & {\ponomarunicode Ꙃꙃ} & {\menaionunicode Ꙃꙃ}\\
+\hline
+A644 A645 & {\bukyvede Ꙅꙅ} & {\flaviusuniversal Ꙅꙅ} & {\ponomarunicode Ꙅꙅ} & {\menaionunicode Ꙅꙅ}\\
+\hline
+A646 A647 & {\bukyvede Ꙇꙇ} & {\flaviusuniversal Ꙇꙇ} & {\ponomarunicode Ꙇꙇ} & {\menaionunicode Ꙇꙇ}\\
+\hline
+A648 A649 & {\bukyvede Ꙉꙉ} & {\flaviusuniversal Ꙉꙉ} & {\ponomarunicode Ꙉꙉ} & {\menaionunicode Ꙉꙉ}\\
+\hline
+A64C A64D & {\bukyvede Ꙍꙍ} & {\flaviusuniversal Ꙍꙍ} & {\ponomarunicode Ꙍꙍ} & {\menaionunicode Ꙍꙍ}\\
+\hline
+A64E A64F & {\bukyvede Ꙏꙏ} & {\flaviusuniversal Ꙏꙏ} & {\ponomarunicode Ꙏꙏ} & {\menaionunicode Ꙏꙏ}\\
+\hline
+A650 A651 & {\bukyvede Ꙑꙑ} & {\flaviusuniversal Ꙑꙑ} & {\ponomarunicode Ꙑꙑ} & {\menaionunicode Ꙑꙑ}\\
+\hline
+A652 A653 & {\bukyvede Ꙓꙓ} & {\flaviusuniversal Ꙓꙓ} & {\ponomarunicode Ꙓꙓ} & {\menaionunicode Ꙓꙓ}\\
+\hline
+A654 A655 & {\bukyvede Ꙕꙕ} & {\flaviusuniversal Ꙕꙕ} & {\ponomarunicode Ꙕꙕ} & {\menaionunicode Ꙕꙕ}\\
+\hline
+A66A A66B & {\bukyvede Ꙫꙫ} & {\flaviusuniversal Ꙫꙫ} & {\ponomarunicode Ꙫꙫ} & {\menaionunicode Ꙫꙫ}\\
+\hline
+\end{tabular}
+\end{table}\end{center}
 
-        Сами страницы бывают следующих типов:
-        \begin{itemize}
-            \item Data Page (страница данных)~--- основная страница с данными, содержит непосредственно значения столбца таблицы.
-            \item Dictionary Page (страница словаря)~--- страница, содержащая словарь уникальных значений для column chunk; используется при словарном кодировании (dictionary encoding) для уменьшения размера файла.
-            \item Index Page (страница индекса)~--- страница, хранящая информацию об индексах, которые позволяют быстро находить нужные диапазоны данных внутри column chunk, тем самым ускоряя выполнение аналитических запросов.
-        \end{itemize}
-\end{itemize}
+\subsubsection{Надстрочные буквы, используемые в буквотитлах}
+\begin{center}\begin{table}[H]
+    \caption{Надстрочные буквы, используемые в буквотитлах}
+    \label{tab:bukvotitla}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
+\hline
+2DE0 & {\bukyvede ⷠ} & {\flaviusuniversal ⷠ} & {\ponomarunicode ⷠ} & {\menaionunicode ⷠ}\\
+\hline
+2DE1 & {\bukyvede ⷡ} & {\flaviusuniversal ⷡ} & {\ponomarunicode ⷡ} & {\menaionunicode ⷡ}\\
+\hline
+2DE2 & {\bukyvede ⷢ} & {\flaviusuniversal ⷢ} & {\ponomarunicode ⷢ} & {\menaionunicode ⷢ}\\
+\hline
+2DE3 & {\bukyvede ⷣ} & {\flaviusuniversal ⷣ} & {\ponomarunicode ⷣ} & {\menaionunicode ⷣ}\\
+\hline
+2DE4 & {\bukyvede ⷤ} & {\flaviusuniversal ⷤ} & {\ponomarunicode ⷤ} & {\menaionunicode ⷤ}\\
+\hline
+2DE5 & {\bukyvede ⷥ} & {\flaviusuniversal ⷥ} & {\ponomarunicode ⷥ} & {\menaionunicode ⷥ}\\
+\hline
+2DE6 & {\bukyvede ⷦ} & {\flaviusuniversal ⷦ} & {\ponomarunicode ⷦ} & {\menaionunicode ⷦ}\\
+\hline
+2DE7 & {\bukyvede ⷧ} & {\flaviusuniversal ⷧ} & {\ponomarunicode ⷧ} & {\menaionunicode ⷧ}\\
+\hline
+2DE8 & {\bukyvede ⷨ} & {\flaviusuniversal ⷨ} & {\ponomarunicode ⷨ} & {\menaionunicode ⷨ}\\
+\hline
+2DE9 & {\bukyvede ⷩ} & {\flaviusuniversal ⷩ} & {\ponomarunicode ⷩ} & {\menaionunicode ⷩ}\\
+\hline
+2DEA & {\bukyvede ⷪ} & {\flaviusuniversal ⷪ} & {\ponomarunicode ⷪ} & {\menaionunicode ⷪ}\\
+\hline
+2DEB & {\bukyvede ⷫ} & {\flaviusuniversal ⷫ} & {\ponomarunicode ⷫ} & {\menaionunicode ⷫ}\\
+\hline
+2DEC & {\bukyvede ⷬ} & {\flaviusuniversal ⷬ} & {\ponomarunicode ⷬ} & {\menaionunicode ⷬ}\\
+\hline
+2DED & {\bukyvede ⷭ} & {\flaviusuniversal ⷭ} & {\ponomarunicode ⷭ} & {\menaionunicode ⷭ}\\
+\hline
+2DEE & {\bukyvede ⷮ} & {\flaviusuniversal ⷮ} & {\ponomarunicode ⷮ} & {\menaionunicode ⷮ}\\
+\hline
+2DEF & {\bukyvede ⷯ} & {\flaviusuniversal ⷯ} & {\ponomarunicode ⷯ} & {\menaionunicode ⷯ}\\
+\hline
+2DF0 & {\bukyvede ⷰ} & {\flaviusuniversal ⷰ} & {\ponomarunicode ⷰ} & {\menaionunicode ⷰ}\\
+\hline
+2DF1 & {\bukyvede ⷱ} & {\flaviusuniversal ⷱ} & {\ponomarunicode ⷱ} & {\menaionunicode ⷱ}\\
+\hline
+2DF2 & {\bukyvede ⷲ} & {\flaviusuniversal ⷲ} & {\ponomarunicode ⷲ} & {\menaionunicode ⷲ}\\
+\hline
+2DF3 & {\bukyvede ⷳ} & {\flaviusuniversal ⷳ} & {\ponomarunicode ⷳ} & {\menaionunicode ⷳ}\\
+\hline
+2DF4 & {\bukyvede ⷴ} & {\flaviusuniversal ⷴ} & {\ponomarunicode ⷴ} & {\menaionunicode ⷴ}\\
+\hline
+2DF5 & {\bukyvede ⷵ} & {\flaviusuniversal ⷵ} & {\ponomarunicode ⷵ} & {\menaionunicode ⷵ}\\
+\hline
+2DF6 & {\bukyvede ⷶ} & {\flaviusuniversal ⷶ} & {\ponomarunicode ⷶ} & {\menaionunicode ⷶ}\\
+\hline
+2DF7 & {\bukyvede ⷷ} & {\flaviusuniversal ⷷ} & {\ponomarunicode ⷷ} & {\menaionunicode ⷷ}\\
+\hline
+2DF8 & {\bukyvede ⷸ} & {\flaviusuniversal ⷸ} & {\ponomarunicode ⷸ} & {\menaionunicode ⷸ}\\
+\hline
+2DF9 & {\bukyvede ⷹ} & {\flaviusuniversal ⷹ} & {\ponomarunicode ⷹ} & {\menaionunicode ⷹ}\\
+\hline
+2DFA & {\bukyvede ⷺ} & {\flaviusuniversal ⷺ} & {\ponomarunicode ⷺ} & {\menaionunicode ⷺ}\\
+\hline
+2DFB & {\bukyvede ⷻ} & {\flaviusuniversal ⷻ} & {\ponomarunicode ⷻ} & {\menaionunicode ⷻ}\\
+\hline
+2DFC & {\bukyvede ⷼ} & {\flaviusuniversal ⷼ} & {\ponomarunicode ⷼ} & {\menaionunicode ⷼ}\\
+\hline
+2DFD & {\bukyvede ⷽ} & {\flaviusuniversal ⷽ} & {\ponomarunicode ⷽ} & {\menaionunicode ⷽ}\\
+\hline
+2DFE & {\bukyvede ⷾ} & {\flaviusuniversal ⷾ} & {\ponomarunicode ⷾ} & {\menaionunicode ⷾ}\\
+\hline
+2DFF & {\bukyvede ⷿ} & {\flaviusuniversal ⷿ} & {\ponomarunicode ⷿ} & {\menaionunicode ⷿ}\\
+\hline
+\end{tabular}
+\end{table}\end{center}
 
-Блок метаданных, называемый \foreignquote{english}{footer} (\enquote{нижняя сноска}), располагается после основной информации и включает:
-\begin{itemize}
-    \item версию формата;
-    \item схему таблицы;
-    \item пары ключ/значение (key/value pairs) для хранения дополнительной метаинформации;
-    \item метаданные для каждой группы строк и каждого фрагмента столбца:
-    \begin{itemize}
-        \item статистические: минимальное и максимальное значения, количество различных значений и null-значений;
-        \item какой алгоритм сжатия использовался для данной части данных;
-        \item используемая кодировка.
-    \end{itemize}
-\end{itemize}
+\subsubsection{Диакритические знаки}
+\begin{center}\begin{table}[H]
+    \caption{Диакритические знаки}
+    \label{tab:diacritic}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
+\hline
+00B7 & {\bukyvede ·} & {\flaviusuniversal ·} & {\ponomarunicode ·} & {\menaionunicode ·}\\
+\hline
+0300 & {\bukyvede ̀} & {\flaviusuniversal ̀} & {\ponomarunicode ̀} & {\menaionunicode ̀}\\
+\hline
+0301 & {\bukyvede ́} & {\flaviusuniversal ́} & {\ponomarunicode ́} & {\menaionunicode ́}\\
+\hline
+% 0303 & {\bukyvede ̃} & {\flaviusuniversal ̃} & {\ponomarunicode ̃} & {\menaionunicode ̃}\\
+% \hline
+0308 & {\bukyvede ̈} & {\flaviusuniversal ̈} & {\ponomarunicode  ̈} & {\menaionunicode ̈}\\
+\hline
+030B & {\bukyvede ̋} & {\flaviusuniversal ̋} & {\ponomarunicode ̋} & {\menaionunicode ̋}\\
+\hline
+030F & {\bukyvede ̏} & {\flaviusuniversal ̏} & {\ponomarunicode ̏} & {\menaionunicode ̏}\\
+\hline
+% 0311 & {\bukyvede ̑} & {\flaviusuniversal ̑} & {\ponomarunicode ̑} & {\menaionunicode ̑}\\
+% \hline
+0360 & {\bukyvede ͠} & {\flaviusuniversal ͠} & {\ponomarunicode ͠} & {\menaionunicode ͠}\\
+\hline
+0361 & {\bukyvede ͡} & {\flaviusuniversal ͡} & {\ponomarunicode ͡} & {\menaionunicode ͡}\\
+\hline
+0482 & {\bukyvede ҂} & {\flaviusuniversal ҂} & {\ponomarunicode ҂} & {\menaionunicode ҂}\\
+\hline
+0483 & {\bukyvede ҃} & {\flaviusuniversal ҃} & {\ponomarunicode ҃} & {\menaionunicode ҃}\\
+\hline
+0484 & {\bukyvede ҄} & {\flaviusuniversal ҄} & {\ponomarunicode ҄} & {\menaionunicode ҄}\\
+\hline
+0485 & {\bukyvede ҅} & {\flaviusuniversal ҅} & {\ponomarunicode ҅} & {\menaionunicode ҅}\\
+\hline
+0486 & {\bukyvede ҆} & {\flaviusuniversal ҆} & {\ponomarunicode ҆} & {\menaionunicode ҆}\\
+\hline
+0487 & {\bukyvede ҇} & {\flaviusuniversal ҇} & {\ponomarunicode ҇} & {\menaionunicode ҇}\\
+\hline
+0488 & {\bukyvede ҈} & {\flaviusuniversal ҈} & {\ponomarunicode ҈} & {\menaionunicode ҈}\\
+\hline
+0489 & {\bukyvede ҉} & {\flaviusuniversal ҉} & {\ponomarunicode ҉} & {\menaionunicode ҉}\\
+\hline
+A66F & {\bukyvede ꙯} & {\flaviusuniversal  ꙯} & {\ponomarunicode  ꙯} & {\menaionunicode  ꙯}\\
+\hline
+A67C & {\bukyvede ꙼} & {\flaviusuniversal ꙼} & {\ponomarunicode ꙼} & {\menaionunicode ꙼}\\
+\hline
+A67D & {\bukyvede ꙽} & {\flaviusuniversal ꙽} & {\ponomarunicode ꙽} & {\menaionunicode ꙽}\\
+\hline
+FE2E & {\bukyvede ︮} & {\flaviusuniversal ︮} & {\ponomarunicode ︮} & {\menaionunicode ︮}\\
+\hline
+FE2F & {\bukyvede ︯} & {\flaviusuniversal ︯} & {\ponomarunicode ︯} & {\menaionunicode ︯}\\
+\hline
+\end{tabular}
+\end{table}\end{center}
 
-Для уменьшения объема хранимых данных \parquet{} поддерживает следующие алгоритмы сжатия информации:
-SNAPPY, GZIP, LZO, BROTLI, ZSTD, LZ4 и пришедший ему на смену в версии 2.9 формата алгоритм LZ4\_RAW.
+\subsubsection{Знаки препинания}
+\begin{center}\begin{table}[H]
+    \caption{Знаки препинания}
+    \label{tab:punctuation}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
+\hline
+0021 & {\bukyvede !} & {\flaviusuniversal !} & {\ponomarunicode !} & {\menaionunicode !}\\
+\hline
+002C & {\bukyvede ,} & {\flaviusuniversal ,} & {\ponomarunicode ,} & {\menaionunicode ,}\\
+\hline
+002E & {\bukyvede .} & {\flaviusuniversal .} & {\ponomarunicode .} & {\menaionunicode .}\\
+\hline
+003A & {\bukyvede :} & {\flaviusuniversal :} & {\ponomarunicode :} & {\menaionunicode :}\\
+\hline
+00B7 & {\bukyvede ·} & {\flaviusuniversal ·} & {\ponomarunicode ·} & {\menaionunicode ·}\\
+\hline
+037E & {\bukyvede ;} & {\flaviusuniversal ;} & {\ponomarunicode ;} & {\menaionunicode ;}\\
+\hline
+\end{tabular}
+\end{table}\end{center}
 
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\linewidth]{parquetFileLayout.png}
-    \caption{Структура \parquet{} файла. Источник: \url{https://raw.github.com/apache/parquet-format/master/doc/images/FileLayout.gif} (дата обращения: \DTMdate{2025-12-30}).}
-    \label{fig:parquetFileLayout}
-\end{figure}
+TODO: таблица с текущей кириллицей? А есть ли смысл?
+
+TODO: !!! РАЗНИЦА ТИТЛО И ПОКРЫТИЕ ЕСТЬ?? НУЖНА ЛИ ТИЛЬДА? (0303) НУЖНЫ ЛИ: 0311, 0360, 0361,
+
+TODO: проверить, все ли символы покрыл
+
+TODO: добавить тесты на числительные (с титлом) и буквотитлах
+
+TODO: вынести знак тыщи и тучи и еще чето в отдельную таблицу? "используемые при счете"
 
 
-\subsubsection{\duckdb{}}
-\duckdb{} \cite{duckdbDocumentation}~--- это колоночно-ориентированная реляционная \dbms{}, оптимизированная для выполнения \olap{}-нагрузок. В отличие от традиционных серверных \dbms{}, \duckdb{} является встраиваемой (in-process) системой, не требующей отдельной серверной части для обработки запросов, что, в свою очередь, позволяет уменьшить накладные расходы при взаимодействии с теми системами, в которые \duckdb{} встраивается.
+\subsubsection{\enquote{Проверка текстом}}
 
-Для разбора и анализа \sql{}-запросов \duckdb{} использует библиотеку \libpgquery{} \cite{libpgquery}, предоставляющую доступ к \postgresql{}-парсеру, благодаря чему достигается высокая степень совместимости синтаксиса и упрощается перенос запросов между системами.
+В данном разделе будет представлен отрывок текста из книги Сираха (см. Рис. \ref{fig:passage}), набранный сравниваемыми шрифтами.
 
-Для разработчиков \duckdb{} предоставляет программный интерфейс (DuckDB \api{}), позволяющий использовать систему из различных языков программирования, включая \texttt{C}, \texttt{C++}, \texttt{Python}, \texttt{Java} и \texttt{Rust} \cite{duckdbApi}. Данное \api{} дает возможность взаимодействовать с \dbms{} \duckdb{} посредством установки соединения, конфигурирования, выполнения \mbox{\sql{}-запросов} и обработки результатов.
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=0.9\textwidth]{figures/passage.png}
+ \caption{Отрывок из книги Сираха}
+ \label{fig:passage}
+ \end{figure}
+
+ Buky Vede:
+
+{\bukyvede
+Блаженъемоуженезазрѣдш҃асвоа,и̑и҆женеспа
+
+деѿнадеждѫсвоеѫ·мѫжевихоулноумелѣпо
+
+естъбогатство·и̑чл͡юузавидливоунелѣпоеⷭ͡й
+
+мѣнїе·Събираѫиѿдш҃ѫсвоеѫи҅нѣмъсъбирает҆·
+}
+\newline
+
+Flavius Universal:
+
+{\flaviusuniversal
+Блаженъемоуженезазрѣдш҃асвоа,и̑и҆женеспа
+
+деѿнадеждѫсвоеѫ·мѫжевихоулноумелѣпо
+
+естъбогатство·и̑чл͡юузавидливоунелѣпоеⷭ͡й
+
+мѣнїе·Събираѫиѿдш҃ѫсвоеѫи҅нѣмъсъбирает҆·
+}
+\newline
+
+Ponomar Unicode:
+
+{\ponomarunicode
+Блаженъемоуженезазрѣдш҃асвоа,и̑и҆женеспа
+
+деѿнадеждѫсвоеѫ·мѫжевихоулноумелѣпо
+
+естъбогатство·и̑чл͡юузавидливоунелѣпоеⷭ͡й
+
+мѣнїе·Събираѫиѿдш҃ѫсвоеѫи҅нѣмъсъбирает҆·
+}
+\newline
+
+% Сюда вбиваю оригинал (в остальные копирую):
+Menaion Unicode:
+
+{\menaionunicode
+Блаженъемоуженезазрѣдш҃асвоа,и̑и҆женеспа
+
+деѿнадеждѫсвоеѫ·мѫжевихоулноумелѣпо
+
+естъбогатство·и̑чл͡юузавидливоунелѣпоеⷭ͡й
+
+мѣнїе·Събираѫиѿдш҃ѫсвоеѫи҅нѣмъсъбирает҆·
+}
+\newline
+
+Можно видеть, что \enquote{проверку текстом} выдержал только \menaionunicodefont{}: \bukyvedefont{}, \flavuniversalfont{} и \ponomarunicodefont{} не смогли вывести все символы, представленные в источнике.
+
+\todo{TODO: починить ширину таблиц}
+\subsubsection{Результаты сравнения}
+\begin{center}
+\begin{table}[H]
+    \caption{Итоги сравнения}
+    \label{tab:results}
+\begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Пункт & \bukyvedefont{} & \flavuniversalfont{} & \ponomarunicodefont{} & \menaionunicodefont{} \\
+    \hline
+    Церковнославянский алфавит &
+        \cellcolor{cellgreen}+ &
+        \cellcolor{cellorange}+- &
+        \cellcolor{cellgreen}+ &
+        \cellcolor{cellgreen}+ \\
+    \hline
+    Доп. старославянский &
+        \cellcolor{cellorange}+- &
+        \cellcolor{cellorange}+- &
+        \cellcolor{cellorange}+- &
+        \cellcolor{cellgreen}+ \\
+    \hline
+    Надстрочные буквы &
+        \cellcolor{cellgreen}+ &
+        \cellcolor{cellred}- &
+        \cellcolor{cellorange}+- &
+        \cellcolor{cellgreen}+ \\
+    \hline
+    Диакритические знаки &
+        \cellcolor{cellgreen}+* &
+        \cellcolor{cellorange}+- &
+        \cellcolor{cellorange}+- &
+        \cellcolor{cellgreen}+* \\
+    \hline
+    Знаки препинания &
+        \cellcolor{cellgreen}+ &
+        \cellcolor{cellgreen}+ &
+        \cellcolor{cellgreen}+ &
+        \cellcolor{cellgreen}+ \\
+    \hline
+    \enquote{Проверка текстом} &
+        \cellcolor{cellorange}+- &
+        \cellcolor{cellorange}+- &
+        \cellcolor{cellorange}+- &
+        \cellcolor{cellgreen}+ \\
+    \hline
+\end{tabular}
+\end{table}
+\end{center}
 
 
+Пока что можно сказать, что лучше всего для визуализации кириллических рукописей подходит шрифт Monomai Unicode, т.к. содержит все необходимые символы, включая титло и буквотитла, отображаемые корректно.
 
-\subsection{Обзор существующих решений}
-\subsubsection{\pgparquet{}}
-\pgparquet{} \cite{pgparquet}~--- расширение \postgresql{}, предназначенное для интеграции СУБД с форматом данных \parquet{}. Данное программное решение позволяет выполнять копирование данных из \parquet{} файлов в таблицы \postgresql{} и, наоборот, записывать данные из \postgresql{} в формат \parquet{} с использованием доработанных стандартных команд \foreignquote{english}{COPY TO} и \foreignquote{english}{COPY FROM}. При эскпортировании в \parquet{} также доступен выбор одного из алгоритмов сжатия, подддерживаемых форматом. Кроме взаимодействия с локальным сервером, данное расширение позволяет обмениваться данными с облачными хранилищами.
+Также стоит отметить, что Flavius Universal имеет существенные изъяны: во-первых, он не поддерживает буквотитла, а во-вторых, покрытие (U+0487) в данном шрифте выглядит неправдоподобно (\enquote{штрих} {\flaviusuniversal а҇} вместо \mbox{\enquote{покрывающей дуги} {\menaionunicode а҇}).}
 
-Помимо операций импорта и экспорта данных, \pgparquet{} предоставляет возможность чтения метаданных файлов \parquet{}, включая описание схемы, статистические характеристики столбцов и информацию о структуре row groups и column chunks.
-
-\subsubsection{\pgduckdb{}}
-\pgduckdb{} \cite{pgduckdb} является расширением, интегрирующим аналитический движок \duckdb{} непосредственно в \postgresql{}, что позволяет производить высоконагруженную \olap{}-обработку внутри самой \dbms{} без необходимости выгрузки данных во внешние аналитические системы или использования отдельного сервиса. Кроме работы с таблицами \postgresql{}, данное ПО предоставляет возможность прямого чтения данных из Data Lake и файлов формата \parquet{}, включая файлы, размещённые в удалённых (remote) объектных хранилищах, таких как Amazon S3, Google Cloud Storage, Azure Blob Storage и \mbox{Cloudflare R2}.
-
-Ключевой особенностью \pgduckdb{} является использование векторизованного аналитического движка \duckdb{} для выполнения \mbox{\olap{}-запросов}. В отличие от стандартного исполнителя \postgresql{}\footnote{\postgresql{} Executor. URL: \url{https://www.postgresql.org/docs/current/executor.html} (дата обращения: \DTMdate{2026-01-15}).}, обрабатывающего данные построчно, \duckdb{} работает с векторами значений, что позволяет существенно сократить накладные расходы на обработку строк и повысить производительность при сканировании и агрегации больших объёмов данных.
-
-В то же время данное расширение имеет ряд ограничений; одним из самых существенных является невозможность использования \duckdb{} внутри определяемых пользователем функций (user-defined functions\footnote{\postgresql{} Documentation. User-Defined Functions. URL: \url{https://www.postgresql.org/docs/current/xfunc.html} (дата обращения: \DTMdate{2026-01-15})}). При попытке вызова такой функции будет выведено сообщение: \mbox{\foreignquote{english}{ERROR:  DuckDB execution is not supported inside functions}.}
-
-
-\subsubsection{\parquetfdw{}}
-Еще одно расширение \postgresql{}, предоставляющее возможности для работы с файлами формата \parquet{},~--- \parquetfdw{} \cite{parquetfdw}~--- представляет собой реализацию механизма Foreign Data Wrapper\footnote{\postgresql{} Wiki. Foreign Data Wrappers. URL: \url{https://wiki.postgresql.org/wiki/Foreign_data_wrappers} (дата обращения: \DTMdate{2026-01-15}).} (\enquote{обертка сторонних данных}), обеспечивающую взаимодействие с \parquet{} файлами как с внешними таблицами. Одним из главных преимуществ данного ПО является отсутствие неоходимости предварительной загрузки данных в \db{}, то есть процесс импорта \parquet{} файлов, происходящий в расширении \pgparquet{}, здесь не нужен; за счет такого архитектурного решения появляется возможность уменьшить использование дискового пространства и вычислительных ресурсов системы, которые обычно затрачиваются при конвертации данных в нативные таблицы.
-
-После создания внешней таблицы при помощи \parquetfdw{} пользователь может выполнять все стандартные операции аналитической обработки данных.
-
-
-\subsection{Выводы}
-
-В вопросе организации обработки данных существуют два различных подхода~--- \oltp{} и \olap{}; в современном мире важны и надежность транзакций, и возможность быстро анализировать большие объемы информации, и потому существует тенденция по объединению данных парадигм в рамках одного инструмента и создания гибридных (\htap{}) систем.
-
-\parquet{} широко используется в современных аналитических системах благодаря внутренней архитектуре файла данного формата, стремящейся обеспечить максимальную оптимизацию для колоночной обработки данных. Аналитический движок \duckdb{} позволяет взаимодействовать с данными, хранящимися в формате \parquet{}, и хорошо приспособлен для \olap{}-нагрузок.
-
-Благодаря тому, что \postgresql{} является \dbms{} с открытым исходным кодом и поддерживает расширяемость, существует ряд решений, предоставляющих возможности для взаимодействия с файлами \parquet{} непосредственно из данной \dbms{}. Краткие итоги сравнения технических возможностей рассмотренных расширений представлены в Таблице \ref{tab:overviewResults}.
+\todo{Наблюдение: \flavuniversalfont{} не поддерживает кириллические символы с кодом U+A640 и больше.}
 
 \begin{table}[h]
 \centering
-\caption{Сводная таблица возможностей расширений.}
-\label{tab:overviewResults}
-\begin{tabular}{|c|c|c|c|}
+\caption{\todo{TODO}}
+\label{tab:issues}
+\begin{tabular}{|c|c|c|}
 \hline
-Возможности & \pgparquet{} & \parquetfdw & \pgduckdb{} \\
+Оригинал & Описание & Неподдерживающие шрифты\\
 \hline
+\includegraphics[height=0.03\textheight]{figures/o_binokular.png} &  О бинокулярное в слове \enquote{очи} & \flavuniversalfont{} \\
 \hline
-чтение \parquet{} \enquote{напрямую} & -- & + & + \\
-\hline
-запись в файл \parquet{} & + & -- & -- \\
-\hline
-чтение метаданных \parquet{} & + & -- & -- \\
-\hline
-аналитический движок & -- & -- & + \\
+\includegraphics[height=0.03\textheight]{figures/pokrytie_triple.png} & \todo{Диакритический знак над тремя буквами} & все рассмотренные \\
 \hline
 \end{tabular}
+
 \end{table}
+
+
+\subsubsection{Открытые проблемы и \todo{обходные пути (?способы решения)}}
+\todo{TODO: убрать 2 секции, писать в формате проблема-решение. В конце добавка доп. предложения}
+
+\todo{Какие проблемы все еще остаются при использовании рассмотренных шрифтов}
+
+\begin{enumerate}
+    \item множественное титло
+\end{enumerate}
+
+\todo{О том, как можно \enquote{вылечить} некоторые проблемы}
+\begin{enumerate}
+    \item \enquote{экспоненциальная запись}
+    \item использовать способ как в \url{https://www.murmanarchiv.ru/images/stories/opis-18_02.pdf}: \enquote{Слова под титлом раскрываются, выносные буквы вносятся в строку в соответствии с написанием подобных слов в той или иной рукописи, или в соответствии с современным написанием слов. Надстрочные знаки опускаются.} Но минусы:
+    \begin{enumerate}
+        \item утрата первоначального вида
+    \end{enumerate}
+    \item для множественного титла: использовать связку left + titlo (*X) + right в ущерб внешнему виду. (? А получится ли, если там будет буква?)
+    \item комбинирование шрифтов: можно видеть, что в некоторых местах рассмотренные шрифты дополняют друг друга. \enquote{Руками} постоянно менять шрифты неудобно, но если это автоматизировать, то для пользователя такое объединение будет незаметным, а текст будет получаться более \enquote{полным} и приближенным к оригиналу.
+\end{enumerate}

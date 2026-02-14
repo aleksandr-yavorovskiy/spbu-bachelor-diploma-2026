@@ -38,39 +38,27 @@
 \newcommand{\GitHub}{\textsc{GitHub}}
 \newcommand{\SMT}{\textsc{SMT}}
 
+
 \newcommand{\gdrive}{\textsc{Google Drive}}
-\newcommand{\googlecloudstorage}{\textsc{Google Cloud Storage}}
-\newcommand{\amazonS}{\textsc{Amazon S3}}
-\newcommand{\wikiparq}{\textsc{WikiParq}}
+\newcommand{\bukyvedefont}{Buky Vede}
+\newcommand{\flavuniversalfont}{Flavius Universal}
+\newcommand{\ponomarunicodefont}{Ponomar Unicode}
+\newcommand{\menaionunicodefont}{Menaion Unicode}
 
 
 \newcommand{\json}{\textsc{JSON}}
 \newcommand{\postgresql}{\textsc{PostgreSQL}}
 \newcommand{\sql}{\textsc{SQL}}
 \newcommand{\api}{\textsc{API}}
-\newcommand{\duckdb}{DuckDB}
-\newcommand{\pgduckdb}{pg\_duckdb}
-\newcommand{\pgparquet}{pg\_parquet}
-\newcommand{\parquetfdw}{parquet\_fdw}
-\newcommand{\libpgquery}{libpg\_query}
-\newcommand{\parquet}{\textsc{Parquet}}
-\newcommand{\apacheparquet}{\textsc{Apache Parquet}}
-\newcommand{\apachehadoop}{\textsc{Apache Hadoop}}
-\newcommand{\apachespark}{\textsc{Apache Spark}}
-\newcommand{\dotparquet}{.parquet}
-\newcommand{\oltp}{\textsc{OLTP}}
-\newcommand{\olap}{\textsc{OLAP}}
-\newcommand{\htap}{\textsc{HTAP}}
-\newcommand{\db}{БД}
-\newcommand{\dbms}{СУБД}
-\newcommand{\thePsqlGlobalDevGroup}{The PostgreSQL Global Development Group}
-\newcommand{\google}{Google}
-\newcommand{\dremel}{Dremel}
-
-
-
 
 \newcommand{\todo}[1]{\textcolor{red}{#1}}
+
+
+
+
+\definecolor{cellgreen}{RGB}{198, 239, 206}
+\definecolor{cellorange}{RGB}{255, 229, 153}
+\definecolor{cellred}{RGB}{255, 199, 206}
 
 
 \definecolor{eclipseGreen}{RGB}{63,127,95}
@@ -100,10 +88,11 @@
     \usepackage{appendixnumberbeamer}
 
     %% Локализация
-    \usepackage{fontspec}
+    \usepackage[TU]{fontspec}
     \setmainfont{CMU Serif}
     \setsansfont{CMU Sans Serif}
     \setmonofont{CMU Typewriter Text}
+
     %\setmonofont{Fira Code}[Contextuals=Alternate,Scale=0.9]
     %\setmonofont{Inconsolata}
     \usepackage{polyglossia}
@@ -127,3 +116,20 @@
 \usepackage{totcount}
 \usepackage{setspace}
 \usepackage{amsmath, amsfonts, amssymb, amsthm, mathtools} % "Адекватная" работа с математикой в LaTeX
+
+\usepackage{fontspec}
+\newfontfamily{\bukyvede}[
+  Path = fonts/
+]{bukyvede.ttf}
+
+\newfontfamily{\flaviusuniversal}[
+  Path = fonts/
+]{FlaviusUniversal.ttf}
+
+\newfontfamily{\ponomarunicode}[
+  Path = fonts/
+]{PonomarUnicode.otf}
+
+\newfontfamily{\menaionunicode}[
+  Path = fonts/
+]{menaionunicode.otf}
