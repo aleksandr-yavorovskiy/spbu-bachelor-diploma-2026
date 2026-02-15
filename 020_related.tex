@@ -16,18 +16,26 @@
 \todo{\enquote{Важное дополнение}: надстрочные буквы, используемые в буквотитлах~--- символы, обладающие большой значимостью, но далеко не во всех шрифтах поддерживаемые. Буквотитло используется для написания сокращенных форм слов...}
 
 \todo{\enquote{Проверка текстом}~--- написанные по отдельности, символы могут выглядеть \enquote{вполне прилично}, но при реальном использовании может случиться так, что текст \enquote{поедет}: например, диакритические знаки перекроют буквы. Также \enquote{проверка текстом} позволяет оценить критичность отсутствия/\enquote{неверного} написания того или иного символа в конкретном шрифте.}
+
+\todo{Также для каждого изъяна в определенном шрифте требуется оценить критичность: насколько серьезен такой недостаток, можно ли передать информацию этим шрифтом, используя иные способы представления символов...}
+
 \subsubsection{Церковнославянский алфавит}
 \todo{Как можно видеть из Таблицы \ref{tab:church}, практически все рассматриваемые шрифты успешно справляются с отображением \enquote{базового набора} для передачи информации~--- церковнославянского алфавита. Стоит отметить, однако, что в сравнении по данной категории шрифт \flavuniversalfont{} имеет небольшой недостаток: в нем отсутствует изображение для букв \enquote{монографический (?лигатурный) ук} (U+A64A, U+A64B) и \enquote{йотированный аз (?или а йотированный)} (U+A656, U+A657).}
+
+\todo{При проведении исследования выяснилось, что по какой-то причине йотированный аз (U+A656) во \flavuniversalfont{} \enquote{переехал} на место CYRILLIC LETTER GHE WITH STROKE AND HOOK (U+04FA). В таком случае отсутствие репрезентации кода U+A656 (U+A657) является не столь критичным, так как при необходимости можно заменить вхождения данного кода на U+04FA; однако при таком подходе стоит учитывать, что текст потеряет совместимость с другими шрифтами.}
 
 \todo{TODO: Насколько это плохо, что нет двух букв. Вроде а йотированный вообще не из церковнославянского\footnote{см. \url{https://ru.wikipedia.org/wiki/А_йотированное}}}
 
 
-\begin{center}\begin{table}[H]
+\begin{table}[H]
     \caption{Церковнославянский алфавит}
     \label{tab:church}
+    \centering
+    \small
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
+ & Buky & Flavius & Ponomar & Menaion \\
+Unicode & Vede & Universal & Unicode & Unicode \\
 \hline
 0410 0430 & {\bukyvede Аа} & {\flaviusuniversal Аа} & {\ponomarunicode Аа} & {\menaionunicode Аа}\\
 \hline
@@ -81,7 +89,7 @@ Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
 % \hline
 0478 0479 & {\bukyvede Ѹѹ} & {\flaviusuniversal Ѹѹ} & {\ponomarunicode Ѹѹ} & {\menaionunicode Ѹѹ}\\
 \hline
-A64A A64B & {\bukyvede Ꙋꙋ} & {\flaviusuniversal Ꙋꙋ} & {\ponomarunicode Ꙋꙋ} & {\menaionunicode Ꙋꙋ}\\
+A64A A64B & {\bukyvede Ꙋꙋ} & \cellcolor{cellorange} {\flaviusuniversal Ꙋꙋ} & {\ponomarunicode Ꙋꙋ} & {\menaionunicode Ꙋꙋ}\\
 \hline
 0424 0444 & {\bukyvede Фф} & {\flaviusuniversal Фф} & {\ponomarunicode Фф} & {\menaionunicode Фф}\\
 \hline
@@ -107,7 +115,7 @@ A64A A64B & {\bukyvede Ꙋꙋ} & {\flaviusuniversal Ꙋꙋ} & {\ponomarunicode �
 \hline
 042E 044E & {\bukyvede Юю} & {\flaviusuniversal Юю} & {\ponomarunicode Юю} & {\menaionunicode Юю}\\
 \hline
-A656 A657 & {\bukyvede Ꙗꙗ} & {\flaviusuniversal Ꙗꙗ} & {\ponomarunicode Ꙗꙗ} & {\menaionunicode Ꙗꙗ}\\
+A656 A657 & {\bukyvede Ꙗꙗ} & \cellcolor{cellorange}{\flaviusuniversal Ꙗꙗ} & {\ponomarunicode Ꙗꙗ} & {\menaionunicode Ꙗꙗ}\\
 \hline
 0466 0467 & {\bukyvede Ѧѧ} & {\flaviusuniversal Ѧѧ} & {\ponomarunicode Ѧѧ} & {\menaionunicode Ѧѧ}\\
 \hline
@@ -121,17 +129,19 @@ A656 A657 & {\bukyvede Ꙗꙗ} & {\flaviusuniversal Ꙗꙗ} & {\ponomarunicode �
 0474 0475 & {\bukyvede Ѵѵ} & {\flaviusuniversal Ѵѵ} & {\ponomarunicode Ѵѵ} & {\menaionunicode Ѵѵ}\\
 \hline
 \end{tabular}
-\end{table}\end{center}
+\end{table}
 
-\todo{Почему-то йотированный аз (U+A656) во \flavuniversalfont{} \enquote{переехал} на место CYRILLIC LETTER GHE WITH STROKE AND HOOK (U+04FA)}
+
 
 \subsubsection{Дополнительные буквы из старославянского языка}
-\begin{center}\begin{table}[H]
+\begin{table}[H]
     \caption{Дополнительные буквы из старославянского языка}
     \label{tab:oldslavic}
+    \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
+ & Buky & Flavius & Ponomar & Menaion \\
+Unicode & Vede & Universal & Unicode & Unicode \\
 \hline
 0464 0465 & {\bukyvede Ѥѥ} & {\flaviusuniversal Ѥѥ} & {\ponomarunicode Ѥѥ} & {\menaionunicode Ѥѥ}\\
 \hline
@@ -143,113 +153,128 @@ Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
 \hline
 % 04FA 04FB & {\bukyvede Ӻӻ} & {\flaviusuniversal Ӻӻ} & {\ponomarunicode Ӻӻ} & {\menaionunicode Ӻӻ}\\
 % \hline
-A640 A641 & {\bukyvede Ꙁꙁ} & {\flaviusuniversal Ꙁꙁ} & {\ponomarunicode Ꙁꙁ} & {\menaionunicode Ꙁꙁ}\\
+A640 A641 & {\bukyvede Ꙁꙁ} & \cellcolor{cellorange}{\flaviusuniversal Ꙁꙁ} & {\ponomarunicode Ꙁꙁ} & {\menaionunicode Ꙁꙁ}\\
 \hline
-A642 A643 & {\bukyvede Ꙃꙃ} & {\flaviusuniversal Ꙃꙃ} & {\ponomarunicode Ꙃꙃ} & {\menaionunicode Ꙃꙃ}\\
+A642 A643 & {\bukyvede Ꙃꙃ} & \cellcolor{cellorange}{\flaviusuniversal Ꙃꙃ} & \cellcolor{cellorange}{\ponomarunicode Ꙃꙃ} & {\menaionunicode Ꙃꙃ}\\
 \hline
-A644 A645 & {\bukyvede Ꙅꙅ} & {\flaviusuniversal Ꙅꙅ} & {\ponomarunicode Ꙅꙅ} & {\menaionunicode Ꙅꙅ}\\
+A644 A645 & {\bukyvede Ꙅꙅ} & \cellcolor{cellorange}{\flaviusuniversal Ꙅꙅ} & \cellcolor{cellorange}{\ponomarunicode Ꙅꙅ} & {\menaionunicode Ꙅꙅ}\\
 \hline
-A646 A647 & {\bukyvede Ꙇꙇ} & {\flaviusuniversal Ꙇꙇ} & {\ponomarunicode Ꙇꙇ} & {\menaionunicode Ꙇꙇ}\\
+A646 A647 & {\bukyvede Ꙇꙇ} & \cellcolor{cellorange}{\flaviusuniversal Ꙇꙇ} & \cellcolor{cellorange}{\ponomarunicode Ꙇꙇ} & {\menaionunicode Ꙇꙇ}\\
 \hline
-A648 A649 & {\bukyvede Ꙉꙉ} & {\flaviusuniversal Ꙉꙉ} & {\ponomarunicode Ꙉꙉ} & {\menaionunicode Ꙉꙉ}\\
+A648 A649 & {\bukyvede Ꙉꙉ} & \cellcolor{cellorange}{\flaviusuniversal Ꙉꙉ} & \cellcolor{cellorange}{\ponomarunicode Ꙉꙉ} & {\menaionunicode Ꙉꙉ}\\
 \hline
-A64C A64D & {\bukyvede Ꙍꙍ} & {\flaviusuniversal Ꙍꙍ} & {\ponomarunicode Ꙍꙍ} & {\menaionunicode Ꙍꙍ}\\
+A64C A64D & {\bukyvede Ꙍꙍ} & \cellcolor{cellorange}{\flaviusuniversal Ꙍꙍ} & {\ponomarunicode Ꙍꙍ} & {\menaionunicode Ꙍꙍ}\\
 \hline
-A64E A64F & {\bukyvede Ꙏꙏ} & {\flaviusuniversal Ꙏꙏ} & {\ponomarunicode Ꙏꙏ} & {\menaionunicode Ꙏꙏ}\\
+A64E A64F & {\bukyvede Ꙏꙏ} & \cellcolor{cellorange}{\flaviusuniversal Ꙏꙏ} & \cellcolor{cellorange}{\ponomarunicode Ꙏꙏ} & {\menaionunicode Ꙏꙏ}\\
 \hline
-A650 A651 & {\bukyvede Ꙑꙑ} & {\flaviusuniversal Ꙑꙑ} & {\ponomarunicode Ꙑꙑ} & {\menaionunicode Ꙑꙑ}\\
+A650 A651 & {\bukyvede Ꙑꙑ} & \cellcolor{cellorange}{\flaviusuniversal Ꙑꙑ} & \cellcolor{cellorange}{\ponomarunicode Ꙑꙑ} & {\menaionunicode Ꙑꙑ}\\
 \hline
-A652 A653 & {\bukyvede Ꙓꙓ} & {\flaviusuniversal Ꙓꙓ} & {\ponomarunicode Ꙓꙓ} & {\menaionunicode Ꙓꙓ}\\
+A652 A653 & {\bukyvede Ꙓꙓ} & \cellcolor{cellorange}{\flaviusuniversal Ꙓꙓ} & \cellcolor{cellorange}{\ponomarunicode Ꙓꙓ} & {\menaionunicode Ꙓꙓ}\\
 \hline
-A654 A655 & {\bukyvede Ꙕꙕ} & {\flaviusuniversal Ꙕꙕ} & {\ponomarunicode Ꙕꙕ} & {\menaionunicode Ꙕꙕ}\\
+A654 A655 & {\bukyvede Ꙕꙕ} & \cellcolor{cellorange}{\flaviusuniversal Ꙕꙕ} & \cellcolor{cellorange}{\ponomarunicode Ꙕꙕ} & {\menaionunicode Ꙕꙕ}\\
 \hline
-A66A A66B & {\bukyvede Ꙫꙫ} & {\flaviusuniversal Ꙫꙫ} & {\ponomarunicode Ꙫꙫ} & {\menaionunicode Ꙫꙫ}\\
+A66A A66B & {\bukyvede Ꙫꙫ} & \cellcolor{cellorange}{\flaviusuniversal Ꙫꙫ} & {\ponomarunicode Ꙫꙫ} & {\menaionunicode Ꙫꙫ}\\
 \hline
 \end{tabular}
-\end{table}\end{center}
+\end{table}
 
 \subsubsection{Надстрочные буквы, используемые в буквотитлах}
-\begin{center}\begin{table}[H]
+\begin{table}[H]
     \caption{Надстрочные буквы, используемые в буквотитлах}
     \label{tab:bukvotitla}
+    \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
+ & Buky & Flavius & Ponomar & Menaion \\
+Unicode & Vede & Universal & Unicode & Unicode \\
 \hline
-2DE0 & {\bukyvede ⷠ} & {\flaviusuniversal ⷠ} & {\ponomarunicode ⷠ} & {\menaionunicode ⷠ}\\
+2DE0 & {\bukyvede ⷠ} & \cellcolor{cellorange}{\flaviusuniversal ⷠ} & {\ponomarunicode ⷠ} & {\menaionunicode ⷠ}\\
 \hline
-2DE1 & {\bukyvede ⷡ} & {\flaviusuniversal ⷡ} & {\ponomarunicode ⷡ} & {\menaionunicode ⷡ}\\
+2DE1 & {\bukyvede ⷡ} & \cellcolor{cellorange}{\flaviusuniversal ⷡ} & {\ponomarunicode ⷡ} & {\menaionunicode ⷡ}\\
 \hline
-2DE2 & {\bukyvede ⷢ} & {\flaviusuniversal ⷢ} & {\ponomarunicode ⷢ} & {\menaionunicode ⷢ}\\
+2DE2 & {\bukyvede ⷢ} & \cellcolor{cellorange}{\flaviusuniversal ⷢ} & {\ponomarunicode ⷢ} & {\menaionunicode ⷢ}\\
 \hline
-2DE3 & {\bukyvede ⷣ} & {\flaviusuniversal ⷣ} & {\ponomarunicode ⷣ} & {\menaionunicode ⷣ}\\
+2DE3 & {\bukyvede ⷣ} & \cellcolor{cellorange}{\flaviusuniversal ⷣ} & {\ponomarunicode ⷣ} & {\menaionunicode ⷣ}\\
 \hline
-2DE4 & {\bukyvede ⷤ} & {\flaviusuniversal ⷤ} & {\ponomarunicode ⷤ} & {\menaionunicode ⷤ}\\
+2DE4 & {\bukyvede ⷤ} & \cellcolor{cellorange}{\flaviusuniversal ⷤ} & {\ponomarunicode ⷤ} & {\menaionunicode ⷤ}\\
 \hline
-2DE5 & {\bukyvede ⷥ} & {\flaviusuniversal ⷥ} & {\ponomarunicode ⷥ} & {\menaionunicode ⷥ}\\
+2DE5 & {\bukyvede ⷥ} & \cellcolor{cellorange}{\flaviusuniversal ⷥ} & {\ponomarunicode ⷥ} & {\menaionunicode ⷥ}\\
 \hline
-2DE6 & {\bukyvede ⷦ} & {\flaviusuniversal ⷦ} & {\ponomarunicode ⷦ} & {\menaionunicode ⷦ}\\
+2DE6 & {\bukyvede ⷦ} & \cellcolor{cellorange}{\flaviusuniversal ⷦ} & {\ponomarunicode ⷦ} & {\menaionunicode ⷦ}\\
 \hline
-2DE7 & {\bukyvede ⷧ} & {\flaviusuniversal ⷧ} & {\ponomarunicode ⷧ} & {\menaionunicode ⷧ}\\
+2DE7 & {\bukyvede ⷧ} & \cellcolor{cellorange}{\flaviusuniversal ⷧ} & {\ponomarunicode ⷧ} & {\menaionunicode ⷧ}\\
 \hline
-2DE8 & {\bukyvede ⷨ} & {\flaviusuniversal ⷨ} & {\ponomarunicode ⷨ} & {\menaionunicode ⷨ}\\
+2DE8 & {\bukyvede ⷨ} & \cellcolor{cellorange}{\flaviusuniversal ⷨ} & {\ponomarunicode ⷨ} & {\menaionunicode ⷨ}\\
 \hline
-2DE9 & {\bukyvede ⷩ} & {\flaviusuniversal ⷩ} & {\ponomarunicode ⷩ} & {\menaionunicode ⷩ}\\
+2DE9 & {\bukyvede ⷩ} & \cellcolor{cellorange}{\flaviusuniversal ⷩ} & {\ponomarunicode ⷩ} & {\menaionunicode ⷩ}\\
 \hline
-2DEA & {\bukyvede ⷪ} & {\flaviusuniversal ⷪ} & {\ponomarunicode ⷪ} & {\menaionunicode ⷪ}\\
+2DEA & {\bukyvede ⷪ} & \cellcolor{cellorange}{\flaviusuniversal ⷪ} & {\ponomarunicode ⷪ} & {\menaionunicode ⷪ}\\
 \hline
-2DEB & {\bukyvede ⷫ} & {\flaviusuniversal ⷫ} & {\ponomarunicode ⷫ} & {\menaionunicode ⷫ}\\
+2DEB & {\bukyvede ⷫ} & \cellcolor{cellorange}{\flaviusuniversal ⷫ} & {\ponomarunicode ⷫ} & {\menaionunicode ⷫ}\\
 \hline
-2DEC & {\bukyvede ⷬ} & {\flaviusuniversal ⷬ} & {\ponomarunicode ⷬ} & {\menaionunicode ⷬ}\\
+2DEC & {\bukyvede ⷬ} & \cellcolor{cellorange}{\flaviusuniversal ⷬ} & {\ponomarunicode ⷬ} & {\menaionunicode ⷬ}\\
 \hline
-2DED & {\bukyvede ⷭ} & {\flaviusuniversal ⷭ} & {\ponomarunicode ⷭ} & {\menaionunicode ⷭ}\\
+2DED & {\bukyvede ⷭ} & \cellcolor{cellorange}{\flaviusuniversal ⷭ} & {\ponomarunicode ⷭ} & {\menaionunicode ⷭ}\\
 \hline
-2DEE & {\bukyvede ⷮ} & {\flaviusuniversal ⷮ} & {\ponomarunicode ⷮ} & {\menaionunicode ⷮ}\\
+2DEE & {\bukyvede ⷮ} & \cellcolor{cellorange}{\flaviusuniversal ⷮ} & {\ponomarunicode ⷮ} & {\menaionunicode ⷮ}\\
 \hline
-2DEF & {\bukyvede ⷯ} & {\flaviusuniversal ⷯ} & {\ponomarunicode ⷯ} & {\menaionunicode ⷯ}\\
+2DEF & {\bukyvede ⷯ} & \cellcolor{cellorange}{\flaviusuniversal ⷯ} & {\ponomarunicode ⷯ} & {\menaionunicode ⷯ}\\
 \hline
-2DF0 & {\bukyvede ⷰ} & {\flaviusuniversal ⷰ} & {\ponomarunicode ⷰ} & {\menaionunicode ⷰ}\\
+2DF0 & {\bukyvede ⷰ} & \cellcolor{cellorange}{\flaviusuniversal ⷰ} & {\ponomarunicode ⷰ} & {\menaionunicode ⷰ}\\
 \hline
-2DF1 & {\bukyvede ⷱ} & {\flaviusuniversal ⷱ} & {\ponomarunicode ⷱ} & {\menaionunicode ⷱ}\\
+2DF1 & {\bukyvede ⷱ} & \cellcolor{cellorange}{\flaviusuniversal ⷱ} & {\ponomarunicode ⷱ} & {\menaionunicode ⷱ}\\
 \hline
-2DF2 & {\bukyvede ⷲ} & {\flaviusuniversal ⷲ} & {\ponomarunicode ⷲ} & {\menaionunicode ⷲ}\\
+2DF2 & {\bukyvede ⷲ} & \cellcolor{cellorange}{\flaviusuniversal ⷲ} & {\ponomarunicode ⷲ} & {\menaionunicode ⷲ}\\
 \hline
-2DF3 & {\bukyvede ⷳ} & {\flaviusuniversal ⷳ} & {\ponomarunicode ⷳ} & {\menaionunicode ⷳ}\\
+2DF3 & {\bukyvede ⷳ} & \cellcolor{cellorange}{\flaviusuniversal ⷳ} & {\ponomarunicode ⷳ} & {\menaionunicode ⷳ}\\
 \hline
-2DF4 & {\bukyvede ⷴ} & {\flaviusuniversal ⷴ} & {\ponomarunicode ⷴ} & {\menaionunicode ⷴ}\\
+2DF4 & {\bukyvede ⷴ} & \cellcolor{cellorange}{\flaviusuniversal ⷴ} & {\ponomarunicode ⷴ} & {\menaionunicode ⷴ}\\
 \hline
-2DF5 & {\bukyvede ⷵ} & {\flaviusuniversal ⷵ} & {\ponomarunicode ⷵ} & {\menaionunicode ⷵ}\\
+2DF5 & {\bukyvede ⷵ} & \cellcolor{cellorange}{\flaviusuniversal ⷵ} & {\ponomarunicode ⷵ} & {\menaionunicode ⷵ}\\
 \hline
-2DF6 & {\bukyvede ⷶ} & {\flaviusuniversal ⷶ} & {\ponomarunicode ⷶ} & {\menaionunicode ⷶ}\\
+2DF6 & {\bukyvede ⷶ} & \cellcolor{cellorange}{\flaviusuniversal ⷶ} & {\ponomarunicode ⷶ} & {\menaionunicode ⷶ}\\
 \hline
-2DF7 & {\bukyvede ⷷ} & {\flaviusuniversal ⷷ} & {\ponomarunicode ⷷ} & {\menaionunicode ⷷ}\\
+2DF7 & {\bukyvede ⷷ} & \cellcolor{cellorange}{\flaviusuniversal ⷷ} & {\ponomarunicode ⷷ} & {\menaionunicode ⷷ}\\
 \hline
-2DF8 & {\bukyvede ⷸ} & {\flaviusuniversal ⷸ} & {\ponomarunicode ⷸ} & {\menaionunicode ⷸ}\\
+2DF8 & {\bukyvede ⷸ} & \cellcolor{cellorange}{\flaviusuniversal ⷸ} & \cellcolor{cellorange}{\ponomarunicode ⷸ} & {\menaionunicode ⷸ}\\
 \hline
-2DF9 & {\bukyvede ⷹ} & {\flaviusuniversal ⷹ} & {\ponomarunicode ⷹ} & {\menaionunicode ⷹ}\\
+2DF9 & {\bukyvede ⷹ} & \cellcolor{cellorange}{\flaviusuniversal ⷹ} & {\ponomarunicode ⷹ} & {\menaionunicode ⷹ}\\
 \hline
-2DFA & {\bukyvede ⷺ} & {\flaviusuniversal ⷺ} & {\ponomarunicode ⷺ} & {\menaionunicode ⷺ}\\
+2DFA & {\bukyvede ⷺ} & \cellcolor{cellorange}{\flaviusuniversal ⷺ} & {\ponomarunicode ⷺ} & {\menaionunicode ⷺ}\\
 \hline
-2DFB & {\bukyvede ⷻ} & {\flaviusuniversal ⷻ} & {\ponomarunicode ⷻ} & {\menaionunicode ⷻ}\\
+2DFB & {\bukyvede ⷻ} & \cellcolor{cellorange}{\flaviusuniversal ⷻ} & {\ponomarunicode ⷻ} & {\menaionunicode ⷻ}\\
 \hline
-2DFC & {\bukyvede ⷼ} & {\flaviusuniversal ⷼ} & {\ponomarunicode ⷼ} & {\menaionunicode ⷼ}\\
+2DFC & {\bukyvede ⷼ} & \cellcolor{cellorange}{\flaviusuniversal ⷼ} & {\ponomarunicode ⷼ} & {\menaionunicode ⷼ}\\
 \hline
-2DFD & {\bukyvede ⷽ} & {\flaviusuniversal ⷽ} & {\ponomarunicode ⷽ} & {\menaionunicode ⷽ}\\
+2DFD & {\bukyvede ⷽ} & \cellcolor{cellorange}{\flaviusuniversal ⷽ} & {\ponomarunicode ⷽ} & {\menaionunicode ⷽ}\\
 \hline
-2DFE & {\bukyvede ⷾ} & {\flaviusuniversal ⷾ} & {\ponomarunicode ⷾ} & {\menaionunicode ⷾ}\\
+2DFE & {\bukyvede ⷾ} & \cellcolor{cellorange}{\flaviusuniversal ⷾ} & \cellcolor{cellorange}{\ponomarunicode ⷾ} & {\menaionunicode ⷾ}\\
 \hline
-2DFF & {\bukyvede ⷿ} & {\flaviusuniversal ⷿ} & {\ponomarunicode ⷿ} & {\menaionunicode ⷿ}\\
+2DFF & {\bukyvede ⷿ} & \cellcolor{cellorange}{\flaviusuniversal ⷿ} & \cellcolor{cellorange}{\ponomarunicode ⷿ} & {\menaionunicode ⷿ}\\
 \hline
 \end{tabular}
-\end{table}\end{center}
+\end{table}
 
 \subsubsection{Диакритические знаки}
-\begin{center}\begin{table}[H]
+\todo{Сослаться на таблицу}
+
+Отсутствие комбинируемой двойной тильды (U+0360) в шрифтах \ponomarunicodefont{} и \menaionunicodefont{} является совершенно некритичным, поскольку данные шрифты поддерживают отображение левой и правой половины титла (U+FE2E, U+FE2F), которыми можно полноценно заменить двойную тильду. Верно и обратное: отсутствие двух половин титла в шрифтах \bukyvedefont{} и \flavuniversalfont{} несложно исправить имеющимся в данных шрифтах двойной тильдой. \todo{TODO: про важность самого знака, зачем надо, когда у нас есть одинарное титло}
+
+Существенным недостатком \flavuniversalfont{} является \enquote{неправдоподобное} написание символа покрытия (U+0487) \todo{дописать, мб привести наглядный пример}
+
+
+
+
+\todo{TODO: не все они диакритические, мб переназвать раздел и таблицу?}
+
+\begin{table}[H]
     \caption{Диакритические знаки}
     \label{tab:diacritic}
+    \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
+ & Buky & Flavius & Ponomar & Menaion \\
+Unicode & Vede & Universal & Unicode & Unicode \\
 \hline
 00B7 & {\bukyvede ·} & {\flaviusuniversal ·} & {\ponomarunicode ·} & {\menaionunicode ·}\\
 \hline
@@ -267,9 +292,9 @@ Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
 \hline
 % 0311 & {\bukyvede ̑} & {\flaviusuniversal ̑} & {\ponomarunicode ̑} & {\menaionunicode ̑}\\
 % \hline
-0360 & {\bukyvede ͠} & {\flaviusuniversal ͠} & {\ponomarunicode ͠} & {\menaionunicode ͠}\\
+0360 & {\bukyvede ͠} & {\flaviusuniversal ͠} & \cellcolor{cellorange}{\ponomarunicode ͠} & \cellcolor{cellorange}{\menaionunicode ͠}\\
 \hline
-0361 & {\bukyvede ͡} & {\flaviusuniversal ͡} & {\ponomarunicode ͡} & {\menaionunicode ͡}\\
+0361 & {\bukyvede ͡} & {\flaviusuniversal ͡} & \cellcolor{cellorange}{\ponomarunicode ͡} & {\menaionunicode ͡}\\
 \hline
 0482 & {\bukyvede ҂} & {\flaviusuniversal ҂} & {\ponomarunicode ҂} & {\menaionunicode ҂}\\
 \hline
@@ -281,32 +306,55 @@ Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
 \hline
 0486 & {\bukyvede ҆} & {\flaviusuniversal ҆} & {\ponomarunicode ҆} & {\menaionunicode ҆}\\
 \hline
-0487 & {\bukyvede ҇} & {\flaviusuniversal ҇} & {\ponomarunicode ҇} & {\menaionunicode ҇}\\
+0487 & {\bukyvede ҇} & \cellcolor{cellorange}{\flaviusuniversal ҇} & {\ponomarunicode ҇} & {\menaionunicode ҇}\\
 \hline
 0488 & {\bukyvede ҈} & {\flaviusuniversal ҈} & {\ponomarunicode ҈} & {\menaionunicode ҈}\\
 \hline
 0489 & {\bukyvede ҉} & {\flaviusuniversal ҉} & {\ponomarunicode ҉} & {\menaionunicode ҉}\\
 \hline
-A66F & {\bukyvede ꙯} & {\flaviusuniversal  ꙯} & {\ponomarunicode  ꙯} & {\menaionunicode  ꙯}\\
+A66F & {\bukyvede ꙯} & \cellcolor{cellorange}{\flaviusuniversal  ꙯} & {\ponomarunicode  ꙯} & {\menaionunicode  ꙯}\\
 \hline
-A67C & {\bukyvede ꙼} & {\flaviusuniversal ꙼} & {\ponomarunicode ꙼} & {\menaionunicode ꙼}\\
+A67C & {\bukyvede ꙼} & \cellcolor{cellorange}{\flaviusuniversal ꙼} & {\ponomarunicode ꙼} & {\menaionunicode ꙼}\\
 \hline
-A67D & {\bukyvede ꙽} & {\flaviusuniversal ꙽} & {\ponomarunicode ꙽} & {\menaionunicode ꙽}\\
+A67D & {\bukyvede ꙽} & \cellcolor{cellorange}{\flaviusuniversal ꙽} & {\ponomarunicode ꙽} & {\menaionunicode ꙽}\\
 \hline
-FE2E & {\bukyvede ︮} & {\flaviusuniversal ︮} & {\ponomarunicode ︮} & {\menaionunicode ︮}\\
+FE2E & \cellcolor{cellorange}{\bukyvede ︮} & \cellcolor{cellorange}{\flaviusuniversal ︮} & {\ponomarunicode ︮} & {\menaionunicode ︮}\\
 \hline
-FE2F & {\bukyvede ︯} & {\flaviusuniversal ︯} & {\ponomarunicode ︯} & {\menaionunicode ︯}\\
+FE2F & \cellcolor{cellorange}{\bukyvede ︯} & \cellcolor{cellorange}{\flaviusuniversal ︯} & {\ponomarunicode ︯} & {\menaionunicode ︯}\\
 \hline
 \end{tabular}
-\end{table}\end{center}
+\end{table}
 
-\subsubsection{Знаки препинания}
-\begin{center}\begin{table}[H]
-    \caption{Знаки препинания}
-    \label{tab:punctuation}
+Отдельно стоит рассмотреть (см. Таблицу \ref{tab:numeric}) \todo{тыщу, тьму и тд, символы, используемые при записи чисел}. Видно, что \todo{отображение леодра (U+0489) в шрифте \flavuniversalfont{} при комбинации с буквой получается неверным: вместо того, чтобы расположиться \enquote{вокруг} аза, символ \enquote{съезжает} вбок. Такое поведение не делает текст нечитаемым, потому что леодр не \enquote{наезжает} на следующую букву, но несколько усложняет его восприятие.}
+\begin{table}[H]
+    \caption{\todo{при счете}}
+    \label{tab:numeric}
+    \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
+ & Buky & Flavius & Ponomar & Menaion \\
+Unicode & Vede & Universal & Unicode & Unicode \\
+\hline
+0482+0430 & {\bukyvede ҂а} & {\flaviusuniversal ҂а} & {\ponomarunicode ҂а} & {\menaionunicode ҂а}\\
+\hline
+0430+0488 & {\bukyvede  а҈} & \cellcolor{cellorange}{\flaviusuniversal  а҈} & {\ponomarunicode  а҈} & {\menaionunicode  а҈}\\
+\hline
+0430+0489 & {\bukyvede  а҉} & \cellcolor{cellorange}{\flaviusuniversal  а҉} & {\ponomarunicode  а҉} & {\menaionunicode  а҉}\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Знаки препинания}
+
+\todo{Исходя из содержания Таблицы \ref{tab:punctuation}, можно констатировать, что все рассматриваемые шрифты одинаково полноценно поддерживают отображение знаков препинания, используемых на письме; однако стоит заметить, что внешний вид символов шрифта \ponomarunicodefont{} гораздо больше \enquote{похожи} на рукописные}
+\begin{table}[H]
+    \caption{Знаки препинания}
+    \label{tab:punctuation}
+    \centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+ & Buky & Flavius & Ponomar & Menaion \\
+Unicode & Vede & Universal & Unicode & Unicode \\
 \hline
 0021 & {\bukyvede !} & {\flaviusuniversal !} & {\ponomarunicode !} & {\menaionunicode !}\\
 \hline
@@ -321,16 +369,16 @@ Unicode & Buky Vede & Flavius Universal & Ponomar Unicode & Menaion Unicode \\
 037E & {\bukyvede ;} & {\flaviusuniversal ;} & {\ponomarunicode ;} & {\menaionunicode ;}\\
 \hline
 \end{tabular}
-\end{table}\end{center}
+\end{table}
 
 
-TODO: таблица с текущей кириллицей? А есть ли смысл?
+% TODO: таблица с текущей кириллицей? А есть ли смысл?
 
-TODO: !!! РАЗНИЦА ТИТЛО И ПОКРЫТИЕ ЕСТЬ?? НУЖНА ЛИ ТИЛЬДА? (0303) НУЖНЫ ЛИ: 0311, 0360, 0361,
+TODO: !!!НУЖНА ЛИ ТИЛЬДА? (0303) НУЖНЫ ЛИ: 0311, 0360, 0361,
 
 TODO: проверить, все ли символы покрыл
 
-TODO: добавить тесты на числительные (с титлом) и буквотитлах
+% TODO: добавить тесты на числительные (с титлом) и буквотитлах
 
 TODO: вынести знак тыщи и тучи и еще чето в отдельную таблицу? "используемые при счете"
 
@@ -385,6 +433,8 @@ Ponomar Unicode:
 }
 \newline
 
+\todo{TODO: а не взмет A66F ли это у т в конце? Это важно, т.к. в менаион нет этого символа}
+
 % Сюда вбиваю оригинал (в остальные копирую):
 Menaion Unicode:
 
@@ -401,17 +451,21 @@ Menaion Unicode:
 
 Можно видеть, что \enquote{проверку текстом} выдержал только \menaionunicodefont{}: \bukyvedefont{}, \flavuniversalfont{} и \ponomarunicodefont{} не смогли вывести все символы, представленные в источнике.
 
-\todo{TODO: починить ширину таблиц}
-\subsubsection{Результаты сравнения}
-\begin{center}
+\subsubsection{Выводы}
+
+\todo{TODO: переделать таблицу, тк менял другие таблицы, надо проверить, что знаки актуальны}
 \begin{table}[H]
+    % \small
+    \setlength{\tabcolsep}{3pt}
     \caption{Итоги сравнения}
     \label{tab:results}
+    \centering
 \begin{tabular}{|c|c|c|c|c|}
     \hline
-    Пункт & \bukyvedefont{} & \flavuniversalfont{} & \ponomarunicodefont{} & \menaionunicodefont{} \\
+     & Buky & Flavius & Ponomar & Menaion \\
+    Пункт & Vede & Universal & Unicode & Unicode \\
     \hline
-    Церковнославянский алфавит &
+    Церковнославянский &
         \cellcolor{cellgreen}+ &
         \cellcolor{cellorange}+- &
         \cellcolor{cellgreen}+ &
@@ -449,12 +503,14 @@ Menaion Unicode:
     \hline
 \end{tabular}
 \end{table}
-\end{center}
+
 
 
 Пока что можно сказать, что лучше всего для визуализации кириллических рукописей подходит шрифт Monomai Unicode, т.к. содержит все необходимые символы, включая титло и буквотитла, отображаемые корректно.
 
 Также стоит отметить, что Flavius Universal имеет существенные изъяны: во-первых, он не поддерживает буквотитла, а во-вторых, покрытие (U+0487) в данном шрифте выглядит неправдоподобно (\enquote{штрих} {\flaviusuniversal а҇} вместо \mbox{\enquote{покрывающей дуги} {\menaionunicode а҇}).}
+
+\todo{Про то, что ни один (?) шрифт не идеален, но комбинируя можем получить хорошее отображение текста}
 
 \todo{Наблюдение: \flavuniversalfont{} не поддерживает кириллические символы с кодом U+A640 и больше.}
 
@@ -462,13 +518,14 @@ Menaion Unicode:
 \centering
 \caption{\todo{TODO}}
 \label{tab:issues}
+\centering
 \begin{tabular}{|c|c|c|}
 \hline
-Оригинал & Описание & Неподдерживающие шрифты\\
+Оригинал & Описание & \makecell{Неподдерживающие \\ шрифты}\\
 \hline
-\includegraphics[height=0.03\textheight]{figures/o_binokular.png} &  О бинокулярное в слове \enquote{очи} & \flavuniversalfont{} \\
+\includegraphics[height=0.03\textheight]{figures/o_binokular.png} & \makecell{О бинокулярное \\ в слове \enquote{очи}} & \flavuniversalfont{} \\
 \hline
-\includegraphics[height=0.03\textheight]{figures/pokrytie_triple.png} & \todo{Диакритический знак над тремя буквами} & все рассмотренные \\
+\includegraphics[height=0.03\textheight]{figures/pokrytie_triple.png} & \makecell{Диакритический знак \\ (буквотитло) над \\ тремя буквами} & все рассмотренные \\
 \hline
 \end{tabular}
 
