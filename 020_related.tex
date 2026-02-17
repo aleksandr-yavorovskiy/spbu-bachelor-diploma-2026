@@ -4,10 +4,18 @@
 \section{Обзор}
 \label{sec:relatedworks}
 
-\subsection{\todo{\unicode{}}}
+\subsection{\todo{\unicode{} и \win{}}}
 \todo{Здесь будут рассказаны базовые принципы \unicode{}, особенности написания диакритических знаков}
 
-\subsection{Сравнение шрифтов}
+\todo{\unicode{}~--- современный стандарт ... используемый ...в вебе практически везде \footnote{URL: \url{https://w3techs.com/technologies/history_overview/character_encoding} (дата обращения: \DTMdate{2026-02-16}).}}
+
+\todo{Каждому символу присвоен свой код. Поддерживается кириллица. Существуют комбинируемые знаки, при последовательной записи кодов символов получается \enquote{цельный} символ. Например, а́}
+
+\todo{\win{}}
+
+\todo{Разница \unicode{}}
+
+\subsection{Сравнительный обзор кириллических шрифтов}
 
 В данном разделе будут приведены результаты сравнения \todo{возможностей применения} четырех кириллических шрифтов\footnote{Все шрифты были взяты с сайта \enquote{Шрифты онлайн}. URL: \url{https://fonts-online.ru} (дата обращения: \DTMdate{2026-02-15}).} при оцифровке старинных рукописей:
 \begin{enumerate}
@@ -25,6 +33,8 @@
     \item знаки препинания;
     \item \enquote{проверка текстом}~--- на каждом из шрифтов был написан отрывок из оцифрованной рукописи.
 \end{enumerate}
+
+Цель данного обзора~--- выявить наиболее полноценный шрифт из представленных, а также оценить недостатки имеющихся шрифтов и найти возможные способы обхода данных изъянов.
 
 \subsubsection{\todo{Выделение важных пунктов сравнения}}
 
@@ -56,6 +66,8 @@
 \hline
  & Buky & Flavius & Ponomar & Menaion \\
 Unicode & Vede & Universal & Unicode & Unicode \\
+\hline
+% 1c88 & {\bukyvede ᲈ} & {\flaviusuniversal ᲈ} & {\ponomarunicode ᲈ} & {\menaionunicode ᲈ}\\
 \hline
 0410 0430 & {\bukyvede Аа} & {\flaviusuniversal Аа} & {\ponomarunicode Аа} & {\menaionunicode Аа}\\
 \hline
@@ -178,6 +190,13 @@ Unicode & Vede & Universal & Unicode & Unicode \\
 \hline
 % 04FA 04FB & {\bukyvede Ӻӻ} & {\flaviusuniversal Ӻӻ} & {\ponomarunicode Ӻӻ} & {\menaionunicode Ӻӻ}\\
 % \hline
+1C84 & {\bukyvede ᲄ} & \cellcolor{cellorange}{\flaviusuniversal ᲄ} & {\ponomarunicode ᲄ} & {\menaionunicode ᲄ}\\
+1C85 & {\bukyvede ᲅ} & \cellcolor{cellorange}{\flaviusuniversal ᲅ} & {\ponomarunicode ᲅ} & {\menaionunicode ᲅ}\\
+\hline
+1C86 & {\bukyvede ᲆ} & \cellcolor{cellorange}{\flaviusuniversal ᲆ} & {\ponomarunicode ᲆ} & {\menaionunicode ᲆ}\\
+\hline
+1C87 & {\bukyvede ᲇ} & \cellcolor{cellorange}{\flaviusuniversal ᲇ} & {\ponomarunicode ᲇ} & {\menaionunicode ᲇ}\\
+\hline
 A640 A641 & {\bukyvede Ꙁꙁ} & \cellcolor{cellorange}{\flaviusuniversal Ꙁꙁ} & {\ponomarunicode Ꙁꙁ} & {\menaionunicode Ꙁꙁ}\\
 \hline
 A642 A643 & {\bukyvede Ꙃꙃ} & \cellcolor{cellorange}{\flaviusuniversal Ꙃꙃ} & \cellcolor{cellorange}{\ponomarunicode Ꙃꙃ} & {\menaionunicode Ꙃꙃ}\\
@@ -202,6 +221,10 @@ A66A A66B & {\bukyvede Ꙫꙫ} & \cellcolor{cellorange}{\flaviusuniversal Ꙫꙫ
 \hline
 \end{tabular}
 \end{table}
+
+\todo{TODO: ДОДОБАВИТЬ Старые формы букв (СМ. ВИКИ), ПОТОМУ ЧТО ВИДИМО ИМЕННО ОНИ ИСПОЛЬЗУЮТСЯ 1C80--1C88}
+
+\todo{TODO: ТАКЖЕ ДОДОБАВИТЬ Буквы старой кириллицы (СМ. ВИКИ), ПОТОМУ ЧТО ВИДИМО ИМЕННО ОНИ ИСПОЛЬЗУЮТСЯ A640--A66E}
 
 \subsubsection{Надстрочные буквы, используемые в буквотитлах}
 \begin{table}[H]
@@ -557,7 +580,7 @@ Menaion Unicode:
 \hline
 \includegraphics[height=0.03\textheight]{figures/o_binokular.png} & \makecell{О бинокулярное \\ в слове \enquote{очи}} & \flavuniversalfont{} \\
 \hline
-\includegraphics[height=0.03\textheight]{figures/pokrytie_triple.png} & \makecell{Диакритический знак \\ (буквотитло) над \\ тремя буквами} & все рассмотренные \\
+\includegraphics[height=0.03\textheight]{figures/pokrytie_triple_bukvotitlo.png} & \makecell{Диакритический знак \\ (буквотитло) над \\ тремя буквами} & все рассмотренные \\
 \hline
 \end{tabular}
 
@@ -586,5 +609,9 @@ Menaion Unicode:
 \subsection{Обзор существующих решений}
 \todo{Здесь будет про ПО, позволяющее легко писать TeX документы. \overleaf{}, \vscode{}+расширения, ... Их преимущества и недостатки, что можно позаимствовать при создании приложения.}
 
+\todo{TODO: цель обзора, критерии отбора материалов, критерии сравнения, таблица с результатами, выводы}
+
 \subsection{Обзор используемых технологий}
 \todo{Здесь будет про ЯП (скорее всего \python{}) и библиотеки для GUI, XeLaTex, БД (\postgresql{})}
+
+\todo{TODO: цель обзора, критерии отбора материалов, критерии сравнения, таблица с результатами, выводы}
