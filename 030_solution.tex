@@ -6,9 +6,76 @@
 
 \subsection{Требования к продукту}
 \label{subsec:task1}
+\todo{REFACTOR:}
+\textbf{Бизнес-требования:}
+\begin{itemize}
+    \item Обеспечение возможности ручного редактирования кириллических текстов % TODO?: без лимитов по объему
+    % \item TODO?: Устранение ограничений существующих решений
+\end{itemize}
+
+\vspace{1em}
+
+\textbf{Функциональные требования:}
+\begin{itemize}
+    \item Импорт и экспорт файлов в форматах .pdf, .docx, .txt
+    \item Генерация PDF с использованием XeLaTeX
+    \item Конвертация текста между шрифтами
+    \item Встроенная клавиатура для ввода спецсимволов
+\end{itemize}
+
+\vspace{1em}
+
+\textbf{Нефункциональные требования:}
+\begin{itemize}
+    \item Кроссплатформенность
+    \item Интуитивно понятный интерфейс
+    % \item TODO?: Расширяемость (добавление новых шрифтов)
+\end{itemize}
+
+
+
+
 
 \subsection{Архитектура решения}
 \label{subsec:task2}
+\todo{refactor:}
+
+Веб-приложение: Single-Page App
+\vspace{1em}
+
+Используемые технологии:
+\begin{itemize}
+    \item \vuejs{}
+    \item \python{} (\django{}) и библиотеки:
+    \begin{itemize}
+        \item \docx{}
+        \item \pypdf{}
+    \end{itemize}
+    \item \xelatex{}
+    \item \nginx{}
+    \item \docker{}
+\end{itemize}
+
+
+\todo{TODO: 2-3 диаграммы}
+
+
+
+
+
 
 \subsection{Особенности реализации}
 \label{subsec:task3}
+\todo{refactor:}
+
+
+\todo{TODO: про развертывание. Решение контейнеризировано в \docker{}, а также создан \makefile{}, для развертывания достаточно установить .env переменные и вызвать команду make deploy}
+
+\todo{TODO: про конвертацию между шрифтами и глаголица<->кириллица}
+
+\todo{TODO: как решались проблемы: конвертации, разбивки длинных слов в pdf на строки, защита от введения спецкоманд теха, ....}
+
+
+\todo{TODO: 2-3 скрина}
+
+\todo{UI вдохновлен Overleaf}
