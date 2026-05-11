@@ -1,0 +1,41 @@
+@startuml
+
+actor "Пользователь" as User
+
+rectangle "Frontend\n(Vue.js)" as FE
+
+rectangle "nginx" as Nginx
+
+rectangle "Backend (Django API)" as BE
+
+User --> FE : текст
+FE --> Nginx : HTTP запросы
+Nginx --> BE : /api/*
+BE --> Nginx : JSON ответ
+Nginx --> FE : HTTP ответ
+FE --> User : отображение результата
+
+@enduml
+
+
+
+
+
+
+
+@startuml
+
+actor User
+participant "Frontend (Vue)" as FE
+participant "Backend API (Django)" as BE
+participant "TeX" as Tex
+
+
+User -> FE : Ввод текста / действие
+FE -> BE : POST /api/...
+BE -> Tex : compile
+Tex -> BE : PDF
+BE --> FE : JSON ответ
+FE --> User : обновление UI
+
+@enduml
