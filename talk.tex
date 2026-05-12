@@ -137,9 +137,9 @@
         \item Собрать и проработать требования к инструменту
         \item Провести обзор шрифтов, используемых при наборе кириллических текстов, с целью определения лучшего по количеству верно отображаемых символов и выявления особенностей отображения для каждого из шрифтов
         \item Спроектировать архитектуру приложения
-        \item Реализовать разработанное решение
-        \item Развернуть приложение на сервере
-        % \item TODO ВКР: Провести апробацию, обеспечить тестовое покрытие......
+        \item Реализовать разработанное решение и развернуть его на сервере
+        \item Провести апробацию среди пользователей
+        \item Обеспечить тестовое покрытие кода backend API приложения не менее 70\% операторов (statements)
     \end{itemize}
 \end{frame}
 
@@ -234,12 +234,16 @@
     \end{center}
 \end{frame}
 
-\begin{frame}{Реализация}
-    \includegraphics[width=1\textwidth]{figures/demo1.png}
-\end{frame}
+% \begin{frame}{Реализация}
+%     \includegraphics[width=1\textwidth]{figures/demo1.png}
+% \end{frame}
+
+% \begin{frame}{Реализация}
+%     \includegraphics[width=1\textwidth]{figures/demo2.png}
+% \end{frame}
 
 \begin{frame}{Реализация}
-    \includegraphics[width=1\textwidth]{figures/demo2.png}
+    \includegraphics[width=1\textwidth]{figures/ui.png}
 \end{frame}
 
 \begin{frame}{Развертывание}
@@ -254,10 +258,20 @@
 
 \end{frame}
 
-% \begin{frame}{Апробация и тестирование}
-%     TODO: опрос по SUSE
-%     TODO: юнит тесты и тп
-% \end{frame}
+\begin{frame}{Апробация и тестирование}
+    Апробация по методике SUS:
+    \begin{itemize}
+        \item На данный момент 2 респондента
+        \item Итоговый балл: 71,25
+    \end{itemize}
+
+    \vspace{1em}
+
+    Тестовое покрытие: 91\%
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{figures/test_coverage.png}
+    \end{center}
+\end{frame}
 
 \begin{frame}
     \frametitle{Результаты}
@@ -270,19 +284,20 @@
             \item Выявлены особенности отображения символов в различных шрифтах и разработан механизм их корректного сопоставления при конвертации
         \end{itemize}
         \item Спроектировано решение на основе требований
-        \item Реализовано веб-приложение для работы с кириллическими текстами % TODO: и развернуто на хостинге
-        % \item Проведена апробация разработанного инструмента, покрыто тестами...
-        \item Приложение развернуто и выложено в открытый доступ
+        \item Реализовано и развернуто на сервере веб-приложение для работы с кириллическими текстами
+        \item Проведена апробация среди пользователей, SUS: 71,25
+        \item Обеспечено тестовое покрытие кода backend API приложения 91\% операторов (statements)
     \end{itemize}
 
-    \begin{center}
-        \includegraphics[width=0.2\textwidth]{figures/qr.png}
-    \end{center}
+    % TODOV: исправить отображение
+    % \begin{center}
+    %     \includegraphics[width=0.05\textwidth]{figures/qr.png}
+    % \end{center}
 
-    % Код доступен по ссылке: TODO
+    Код доступен по ссылке: \url{https://github.com/aleksandr-yavorovskiy/cyrillic-editor}
 
     % \begin{itemize}
-    %     \item TODO для ВКР: Если результаты были представлены на конференции и опубликованы, это желательно указать
+        Результаты работы представлены на конференциях \enquote{IT-симпозиум 2026} и \enquote{СПИСОК 2026}.
     % \end{itemize}
 \end{frame}
 
