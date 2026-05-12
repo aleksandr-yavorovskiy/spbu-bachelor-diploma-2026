@@ -83,7 +83,7 @@
     \end{enumerate}
     Оба вида реализованы с помощью одного механизма, основанного на словарях и работающего во frontend-части приложения. Для конвертации между шрифтами используется следующая логика:
     \begin{enumerate}
-        \item \todo{}
+        \item \todo{TODO}
     \end{enumerate}
     В случае конвертации текста из кириллицы в глаголицу (и обратно) подход проще: используется лишь словарь CyrillicToGlagolitic (и GlagoliticToCyrillic~--- обратно).
 
@@ -98,4 +98,4 @@
         \label{fig:ui}
     \end{figure}
 
-    В репозитории проекта\footnote{\url{https://github.com/aleksandr-yavorovskiy/cyrillic-editor/} (дата обращения: \DTMDate{2026-05-12}).} оформлен CI (Continuous Integration) с помощью \githubworkflow{} \footnote{\url{https://docs.github.com/en/actions/concepts/workflows-and-actions/workflows} (дата обращения: \DTMDate{2026-05-12}).}, \todo{который ... код с помощью линтеров, проверяет тесты, убеждается, что решение успешно запускается в \docker{}}
+    В репозитории проекта\footnote{\url{https://github.com/aleksandr-yavorovskiy/cyrillic-editor/} (дата обращения: \DTMDate{2026-05-12}).} оформлен CI (Continuous Integration) с помощью \githubworkflow{}\footnote{\url{https://docs.github.com/en/actions/concepts/workflows-and-actions/workflows} (дата обращения: \DTMDate{2026-05-12}).}, в котором производится запуск линтеров, тестов и контейнеризация приложения.
