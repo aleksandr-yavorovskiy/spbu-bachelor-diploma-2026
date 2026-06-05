@@ -22,7 +22,7 @@
 % То, что в квадратных скобках, отображается в левом нижнем углу.
 \author[\my@title@author@ru]{\my@title@author@ru}
 \institute[СПбГУ]{}
-\date[22 апреля 2026 г.]{}
+\date[08 июня 2026 г.]{}
 \newcommand{\supervisor}{\my@title@supervisor@ru}
 \newcommand{\supervisorPosition}{\my@title@supervisorPosition@ru}
 \newcommand{\consultant}{\my@title@consultant@ru}
@@ -66,19 +66,38 @@
 \end{frame}
 }
 
+% \begin{frame}{Введение}
+
+%     % \todo{REFACTOR}
+
+%     \begin{itemize}
+%         \item Оцифровываются кириллические рукописи XIII века
+%         \item Возникает необходимость ручного редактирования полученного текста
+%         \item Сложности:
+%         \begin{itemize}
+%             \item Неконсистентность шрифтов
+%             \item Неудобство набора специальных кириллических символов
+%         \end{itemize}
+%         \item Необходимо создать приложение для удобной работы с кириллическими текстами
+%     \end{itemize}
+% \end{frame}
+
 \begin{frame}{Введение}
 
     % \todo{REFACTOR}
 
     \begin{itemize}
-        \item Оцифровываются кириллические рукописи XIII века
-        \item Возникает необходимость ручного редактирования полученного текста
-        \item Сложности:
-        \begin{itemize}
-            \item Неконсистентность шрифтов
-            \item Неудобство набора специальных кириллических символов
-        \end{itemize}
-        \item Необходимо создать приложение для удобной работы с кириллическими текстами
+        \item Оцифровка кириллических рукописей: \textbf{\enquote{Цифровой летописец}} совместно с \textbf{РАН}
+        \item Сотрудники сталкиваются с проблемами при подготовке текстов для публикации:
+        \begin{enumerate}
+            \item \textbf{Неконсистентность отображения} при смене шрифта
+            \begin{center}
+                \includegraphics[width=0.4\textwidth]{figures/flavexp-bad-conversion.png}
+            \end{center}
+            \item Неудобство набора \textbf{специфичных кириллических символов}
+        \end{enumerate}
+        \item Процесс подготовки текста к публикации усложняется
+        \item Необходим удобный инструмент, обеспечивающий корректную работу с кириллическими шрифтами
     \end{itemize}
 \end{frame}
 
@@ -88,49 +107,49 @@
     % \todo{REFACTOR}
 
     \begin{itemize}
-        \item Word
+        \item \textbf{Microsoft Word}
         \begin{itemize}
             \item Де-факто стандарт
             \item Доступен экспорт в PDF
             \item Недостатки:
-            \begin{itemize}
-                \item Нет поддержки конвертации шрифтов: при смене шрифта символы могут \enquote{исчезнуть}
-                \item Набор спецсимволов неудобен
-                % \item TODO: частичная недоступность в РФ?
-                % \item ??При конвертации в pdf все может поехать
-            \end{itemize}
+            \begin{enumerate}
+                \item \textbf{Нет поддержки конвертации} кириллических шрифтов: при \textbf{смене шрифта} текст может \enquote{сломаться}
+                \item Нет встроенного инструмента для \textbf{набора спецсимволов}
+            \end{enumerate}
         \end{itemize}
-        \item Overleaf
+        \item \textbf{Overleaf}
         \begin{itemize}
             \item Экспорт в PDF
             \item Использование TeX
             \item Недостатки:
-            \begin{itemize}
-                \item Компиляция лимитирована по объёму (при превышении лимита~--- платно)
-                \item Нет поддержки конвертации шрифтов
-                \item Нет встроенного инструмента для набора спецсимволов
+            \begin{enumerate}
+                \item \textbf{Компиляция лимитирована} по объёму (при превышении лимита~--- платно)
+                \item \textbf{Нет поддержки конвертации} кириллических шрифтов
+                \item Нет встроенного инструмента для \textbf{набора спецсимволов}
                 \item \enquote{Неблизко} обычному пользователю
-            \end{itemize}
+            \end{enumerate}
         \end{itemize}
-        \item Прочие отечественные аналоги (Cyrillic Text Editor, Online Cyrillic Editor) не предназначены для работы с церковнославянскими текстами
+        % \item Прочие отечественные аналоги (Cyrillic Text Editor, Online Cyrillic Editor) не предназначены для работы с церковнославянскими текстами
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Существующие решения}
+    \frametitle{Выводы}
 
     % \todo{REFACTOR}
 
-    Выводы:
     \begin{itemize}
-        \item На данный момент специализированного приложения для работы с кириллическими и церковнославянскими текстами \textbf{нет}
+        \item \textbf{Нет инструмента} для работы с кириллическими и церковнославянскими текстами
+
+        \vspace{1em}
+
         \item Основные недостатки существующих решений:
-        \begin{itemize}
-        \item Неудобный набор специфичных кириллических символов
-        \item Не учитываются особенности шрифтов, отсутствует механизм конвертации
-        \item Ограничения по объему текста в бесплатных версиях
-        \end{itemize}
-        \item Необходимо разработать инструмент для набора и редактирования кириллических текстов, автоматизирующий корректную конвертацию символов при смене шрифтов
+        \begin{enumerate}
+            \item \textbf{Неудобный набор} специфичных кириллических символов
+            \item Не учитываются особенности шрифтов, отсутствует механизм \textbf{корректной конвертации}
+            \item \textbf{Ограничения по объему} текста в бесплатных версиях
+        \end{enumerate}
+        % \item Необходимо разработать инструмент для набора и редактирования кириллических текстов, автоматизирующий корректную конвертацию символов при смене шрифтов
     \end{itemize}
 \end{frame}
 
@@ -156,22 +175,22 @@
 
 \begin{frame}{Требования}
     \textbf{Функциональные требования:}
-    \begin{itemize}
-        \item Импорт и экспорт файлов в форматах PDF, DOCX, TXT
-        \item Генерация PDF с использованием XeLaTeX
-        \item Корректная конвертация текста между шрифтами
-        \item Конвертация между кириллицей и глаголицей
-        \item Встроенная экранная клавиатура для ввода спецсимволов
-        \item Возможность добавления пользовательских шрифтов
-    \end{itemize}
+    \begin{enumerate}
+        \item \textbf{Импорт} и \textbf{экспорт} файлов в форматах \textbf{PDF}, \textbf{DOCX}, \textbf{TXT}
+        \item Генерация \textbf{PDF} с использованием \textbf{XeLaTeX}
+        \item \textbf{Корректная конвертация} текста между шрифтами
+        \item Конвертация между кириллицей и \textbf{глаголицей}
+        \item Встроенная \textbf{экранная клавиатура} для ввода спецсимволов
+        \item Возможность добавления \textbf{пользовательских шрифтов}
+    \end{enumerate}
 
     \vspace{1em}
 
     \textbf{Нефункциональные требования:}
-    \begin{itemize}
+    \begin{enumerate}
         \item Кроссплатформенность
         \item Интуитивно понятный интерфейс
-    \end{itemize}
+    \end{enumerate}
 \end{frame}
 
 \begin{frame}{Обзор шрифтов}
@@ -179,8 +198,8 @@
 
     Рассматривалось 5 шрифтов:
     \begin{itemize}
-        \item Buky Vede
-        \item Flavius Universal и FlavExp
+        \item BukyVede
+        \item Flavius Unicode Universal (и FlavExp Unicode Universal)
         \item Menaion Unicode
         \item Ponomar Unicode
     \end{itemize}
@@ -214,8 +233,8 @@
             \centering
             \begin{tabular}{|c|c|c|c|c|c|}
                 \hline
-                & Buky & Flavius & Ponomar & Menaion & Всего в\\
-                Категория & Vede & Universal & Unicode & Unicode & категории \\
+                          & Buky & \textbf{Flavius} & Ponomar & \textbf{Menaion} & Всего в\\
+                Категория & Vede & \textbf{Universal} & Unicode & \textbf{Unicode} & категории \\
                 \hline
                 1 & 86 & 82 & 86 & 86 & 86\\
                 \hline
@@ -239,25 +258,26 @@
      \end{itemize}
 \end{frame}
 
-\begin{frame}{Архитектура решения}
+\begin{frame}{Архитектура решения (backend)}
     % \todo{REFACTOR}
 
-    Веб-приложение: Single-Page App
+    Одностраничное веб-приложение (SPA)
     \vspace{1em}
 
     Используемые технологии:
     \begin{itemize}
-        \item Фронтэнд: Vue.js
-        \item Бэкэнд: Python (Fast API) и библиотеки
+        \item Фронтэнд: \textbf{Vue.js}
+        \item Бэкэнд: Python (\textbf{Fast API}) и библиотеки
         \begin{itemize}
             \item docx
             \item PyPDF2
         \end{itemize}
-        \item Сборка PDF: XeLaTex
+        \item Сборка PDF: \textbf{XeLaTex}~--- встроенная поддержка \textbf{Unicode}
         \item Инфраструктура:
         \begin{itemize}
-            \item nginx
-            \item Docker, make
+            \item \textbf{nginx}
+            \item \textbf{Docker}
+            \item \textbf{make}
         \end{itemize}
     \end{itemize}
     % \item В реализации интересны архитектура, библиотеки, инструменты
@@ -265,31 +285,44 @@
 \end{frame}
 
 \begin{frame}{Архитектура решения}
-    \todo{Вместо этого использовать компонентную диаграмму}
+    % \todo{Вместо этого использовать компонентную диаграмму}
 
     \begin{center}
-        \includegraphics[width=0.6\textwidth]{figures/class_diagram.png}
+        \includegraphics[width=0.6\textwidth]{figures/services-flow-new.png}
     \end{center}
 \end{frame}
 
 \begin{frame}{Реализация}
     % \todo{REFACTOR}
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{figures/demo_new.png}
+        \includegraphics[width=0.8\textwidth]{figures/demo_new.png}
     \end{center}
 \end{frame}
 
 \begin{frame}{Развертывание}
-    \todo{REFACTOR}
+    % \todo{REFACTOR}
 
-    \begin{itemize}
-        \item Dockerfile:
-        \begin{itemize}
-            \item frontend
-            \item backend
-        \end{itemize}
-        \item Docker compose
-    \end{itemize}
+    \begin{columns}
+
+        \begin{column}{0.6\textwidth}
+            \begin{itemize}
+                \item Dockerfile:
+                \begin{enumerate}
+                    \item frontend
+                    \item backend
+                \end{enumerate}
+                \item Docker compose
+                \item make deploy
+            \end{itemize}
+        \end{column}
+
+        \begin{column}{0.4\textwidth}
+            \begin{center}
+                \includegraphics[width=0.4\textwidth]{figures/qr.png}
+            \end{center}
+        \end{column}
+
+    \end{columns}
 
 \end{frame}
 
