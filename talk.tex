@@ -56,7 +56,7 @@
         % % Консультанта может и не быть. Должна быть указана должность или ученая степень
         % \textbf{Консультант:}  \consultantPosition~\consultant \\
         % % Для учебной практики не обязателен. Должна быть указана должность или ученая степень
-        % \textbf{Рецензент:} \reviewerPosition~\reviewer \\
+        \textbf{Рецензент:} \reviewerPosition~\reviewer \\
     }
     \makeatother
     \begin{center}
@@ -67,6 +67,9 @@
 }
 
 \begin{frame}{Введение}
+
+    % \todo{REFACTOR}
+
     \begin{itemize}
         \item Оцифровываются кириллические рукописи XIII века
         \item Возникает необходимость ручного редактирования полученного текста
@@ -74,7 +77,6 @@
         \begin{itemize}
             \item Неконсистентность шрифтов
             \item Неудобство набора специальных кириллических символов
-            \item Конвертация в PDF % TODO: убрать?
         \end{itemize}
         \item Необходимо создать приложение для удобной работы с кириллическими текстами
     \end{itemize}
@@ -82,6 +84,9 @@
 
 \begin{frame}
     \frametitle{Существующие решения}
+
+    % \todo{REFACTOR}
+
     \begin{itemize}
         \item Word
         \begin{itemize}
@@ -113,6 +118,9 @@
 
 \begin{frame}
     \frametitle{Существующие решения}
+
+    % \todo{REFACTOR}
+
     Выводы:
     \begin{itemize}
         \item На данный момент специализированного приложения для работы с кириллическими и церковнославянскими текстами \textbf{нет}
@@ -137,29 +145,24 @@
         \item Собрать и проработать требования к инструменту
         \item Провести обзор шрифтов, используемых при наборе кириллических текстов, с целью определения лучшего по количеству верно отображаемых символов и выявления особенностей отображения для каждого из шрифтов
         \item Спроектировать архитектуру приложения
-        \item Реализовать разработанное решение и развернуть его на сервере
-        \item Провести апробацию среди пользователей
+        \item Реализовать разработанное решение
+        \item Развернуть приложение на сервере
         \item Обеспечить тестовое покрытие кода backend API приложения не менее 70\% операторов (statements)
+        \item Провести апробацию инструмента среди пользователей
     \end{itemize}
 \end{frame}
 
 % %Идеально, если есть по одному слайду на каждую поставленную задачу
 
 \begin{frame}{Требования}
-    \textbf{Бизнес-требования:}
-    \begin{itemize}
-        \item Обеспечение возможности ручного редактирования кириллических текстов % TODO?: без лимитов по объему
-        % \item TODO?: Устранение ограничений существующих решений
-    \end{itemize}
-
-    \vspace{1em}
-
     \textbf{Функциональные требования:}
     \begin{itemize}
-        \item Импорт и экспорт файлов в форматах .pdf, .docx, .txt
+        \item Импорт и экспорт файлов в форматах PDF, DOCX, TXT
         \item Генерация PDF с использованием XeLaTeX
-        \item Конвертация текста между шрифтами
-        \item Встроенная клавиатура для ввода спецсимволов
+        \item Корректная конвертация текста между шрифтами
+        \item Конвертация между кириллицей и глаголицей
+        \item Встроенная экранная клавиатура для ввода спецсимволов
+        \item Возможность добавления пользовательских шрифтов
     \end{itemize}
 
     \vspace{1em}
@@ -168,11 +171,12 @@
     \begin{itemize}
         \item Кроссплатформенность
         \item Интуитивно понятный интерфейс
-        % \item TODO?: Расширяемость (добавление новых шрифтов)
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Обзор шрифтов}
+    % \todo{REFACTOR}
+
     Рассматривалось 5 шрифтов:
     \begin{itemize}
         \item Buky Vede
@@ -197,56 +201,87 @@
 
 
 \begin{frame}{Обзор шрифтов}
-    Итоги сравнения
+    % \todo{REFACTOR}
+
+    % Итоги сравнения
     % TODO: сделать диаграмму вместо таблицы
-    \includegraphics[width=1\textwidth]{figures/fonts_comparison_results_table.png}
+    % TODO: !!!!! изменить кол-во для ПОНОМАРЬ в буквотитлах на один меньше
+    % \includegraphics[width=1\textwidth]{figures/fonts_comparison_results_table.png}
+
+    \begin{table}[H]
+            \caption{Итоги сравнения, количество поддерживаемых символов}
+            \label{tab:results}
+            \centering
+            \begin{tabular}{|c|c|c|c|c|c|}
+                \hline
+                & Buky & Flavius & Ponomar & Menaion & Всего в\\
+                Категория & Vede & Universal & Unicode & Unicode & категории \\
+                \hline
+                1 & 86 & 82 & 86 & 86 & 86\\
+                \hline
+                2 & 45 & 28 & 42 & 54 & 54\\
+                \hline
+                3 & 32 & 0  & 29 & 31 & 32\\
+                \hline
+                4 & 24 & 15 & 24 & 25 & 26\\
+                \hline
+                5 & 6  & 6  & 6  & 6  & 6\\
+                \hline
+                \textbf{Итог} & 193 & \textbf{131} & 187 & \textbf{202} & 204\\
+                \hline
+            \end{tabular}
+        \end{table}
 
      Выводы:
     \begin{itemize}
-        \item Menaion Unicode~--- лучший по количеству верно отображаемых символов
+        \item \textbf{Menaion Unicode}~--- лучший по количеству верно отображаемых символов
         \item Необходим инструмент конвертации между шрифтами, чтобы символы не \enquote{ломались}
      \end{itemize}
 \end{frame}
 
 \begin{frame}{Архитектура решения}
+    % \todo{REFACTOR}
+
     Веб-приложение: Single-Page App
     \vspace{1em}
 
     Используемые технологии:
     \begin{itemize}
-        \item Vue.js
-        \item Python (Django) и библиотеки:
+        \item Фронтэнд: Vue.js
+        \item Бэкэнд: Python (Fast API) и библиотеки
         \begin{itemize}
             \item docx
             \item PyPDF2
         \end{itemize}
-        \item XeLaTex
-        \item nginx
-        \item Docker
+        \item Сборка PDF: XeLaTex
+        \item Инфраструктура:
+        \begin{itemize}
+            \item nginx
+            \item Docker, make
+        \end{itemize}
     \end{itemize}
     % \item В реализации интересны архитектура, библиотеки, инструменты
 %     \item Не надо добавлять на слайд примеры кода
 \end{frame}
 
 \begin{frame}{Архитектура решения}
+    \todo{Вместо этого использовать компонентную диаграмму}
+
     \begin{center}
-        \includegraphics[width=0.5\textwidth]{figures/arch_diagram1.png}
+        \includegraphics[width=0.6\textwidth]{figures/class_diagram.png}
     \end{center}
 \end{frame}
 
-% \begin{frame}{Реализация}
-%     \includegraphics[width=1\textwidth]{figures/demo1.png}
-% \end{frame}
-
-% \begin{frame}{Реализация}
-%     \includegraphics[width=1\textwidth]{figures/demo2.png}
-% \end{frame}
-
 \begin{frame}{Реализация}
-    \includegraphics[width=1\textwidth]{figures/ui.png}
+    % \todo{REFACTOR}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{figures/demo_new.png}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Развертывание}
+    \todo{REFACTOR}
+
     \begin{itemize}
         \item Dockerfile:
         \begin{itemize}
@@ -261,50 +296,57 @@
 \begin{frame}{Апробация и тестирование}
     Апробация по методике SUS:
     \begin{itemize}
-        \item На данный момент 2 респондента
-        \item Итоговый балл: 71,25
+        \item 11 респондентов
+        \item Итоговый балл: 73.9
     \end{itemize}
 
     \vspace{1em}
 
-    Тестовое покрытие: 91\%
+    Тестовое покрытие (pytest): 89\% операторов
     \begin{center}
-        \includegraphics[width=0.8\textwidth]{figures/test_coverage.png}
+        \includegraphics[width=0.5\textwidth]{figures/test_coverage.png}
     \end{center}
 \end{frame}
 
 \begin{frame}
     \frametitle{Результаты}
+
+    % \todo{REFACTOR}
+
     В результате работы были выполнены следующие задачи:
     \begin{itemize}
         \item Собраны и проработаны требования к инструменту
         \item Проведен сравнительный обзор кириллических шрифтов
         \begin{itemize}
-            \item Определен лучший по количеству верно отображаемых символов шрифт
+            \item Определен лучший по количеству верно отображаемых символов шрифт~--- Menaion Unicode
             \item Выявлены особенности отображения символов в различных шрифтах и разработан механизм их корректного сопоставления при конвертации
         \end{itemize}
         \item Спроектировано решение на основе требований
         \item Реализовано и развернуто на сервере веб-приложение для работы с кириллическими текстами
-        \item Проведена апробация среди пользователей, SUS: 71,25
-        \item Обеспечено тестовое покрытие кода backend API приложения 91\% операторов (statements)
+        \item Проведена апробация среди пользователей, SUS: 73.9
+        \item Обеспечено тестовое покрытие кода backend API приложения 89\% операторов (statements)
     \end{itemize}
-
-    % TODOV: исправить отображение
-    % \begin{center}
-    %     \includegraphics[width=0.05\textwidth]{figures/qr.png}
-    % \end{center}
 
     Код доступен по ссылке: \url{https://github.com/aleksandr-yavorovskiy/cyrillic-editor}
 
     % \begin{itemize}
-        Результаты работы представлены на конференциях \enquote{IT-симпозиум 2026} и \enquote{СПИСОК 2026}.
+    Результаты работы представлены на конференциях \enquote{IT-симпозиум 2026} и \enquote{СПИСОК 2026}.
     % \end{itemize}
 \end{frame}
 
-
+\appendix
 
 \begin{frame}
     \frametitle{Дополнительный слайд}
+    \begin{center}
+        \includegraphics[width=0.4\textwidth]{figures/qr.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Дополнительный слайд}
+    % \todo{REFACTOR}
+
     Смена шрифта: A => B
 
     FontToUnicode (A) => Unicode => UnicodeToFont (B)
@@ -312,115 +354,5 @@
         \includegraphics[width=0.3\textwidth]{figures/json_example.png}
     \end{center}
 \end{frame}
-
-% \begin{frame}
-%     \frametitle{Второй дополнительный слайд}
-%     TODO: проблемы отображения, способы решения?
-% \end{frame}
-
-
-
-
-% \begin{frame}
-%     \frametitle{Алгоритм ABC\footnote{Результаты и обоснования выбора пути достижения цели}}
-%     За основу решения взят алгоритм ABC
-%     \begin{itemize}
-%         \item Почему именно он, а не другие
-%         \item Ключевые особенности выбранного алгоритма, важные для решения поставленных задач
-%     \end{itemize}
-% \end{frame}
-
-% % TODO(Kakadu): lstlisting will be better
-% \defverbatim[colored]{\CodeExample}{
-%     \begin{Verbatim}[commandchars=\\\{\}]
-%         \textcolor{blue}{string} res = \textcolor{orange}{""};
-%         \textcolor{blue}{for}(i = 0; i < l; i++) \{
-%         res = \textcolor{orange}{"()"} + res;
-%         \}
-%     \end{Verbatim}
-% }
-
-% \begin{frame}%[fragile]
-%     \frametitle{Новый алгоритм}
-%     \framesubtitle{Иллюстративные возможности: таблицы, картинки, код}
-%     % Задается ширина столбцов
-%     \begin{columns}[T]
-%         \begin{column}[t]{.4\textwidth}
-%             \begin{minipage}{2in} \CodeExample         \end{minipage}
-%             Аппроксимация:\\
-%             \includegraphics[width=2.5cm]{figures/in3.pdf}
-
-%             Грамматика:
-%             {\begin{align*}
-%                 start& & &\Coloneq & &s \\
-%                 s & & &\Coloneq & &\mbox{\texttt{LBR }} s \mbox{\texttt{ RBR }} s \\
-%                 s & & &\Coloneq & &\varepsilon
-%             \end{align*}}
-%         \end{column}
-%         %\hspace{1cm}
-%         \begin{column}[T]{.6\textwidth}
-%             \vspace{-2em}
-%             \includegraphics[width=1\textwidth]{figures/out3.pdf}
-%         \end{column}
-%     \end{columns}
-% \end{frame}
-
-% \begin{frame}
-%     \frametitle{Доказательство корректности алгоритма}
-%     {\small Формулировки утверждений. Идеи доказательств проговариваются устно.}
-%     \begin{rutheorem}[Пифагора: геометрическая формулировка]
-%         В прямоугольном треугольнике площадь квадрата, построенного на гипотенузе, равна сумме площадей квадратов, построенных на катетах.
-%     \end{rutheorem}
-
-%     \begin{rutheorem}[Пифагора: алгебраическая формулировка]
-%         В прямоугольном треугольнике квадрат длины гипотенузы равен сумме квадратов длин катетов.
-
-%         То есть, если обозначить длину гипотенузы треугольника через $c$, а длины катетов
-%         через $a$ и $b$, получим верное равенство: $a^2 + b^2 = c^2$.
-%     \end{rutheorem}
-
-%     \begin{rutheorem}[Обратная теорема Пифагора]
-%         Для всякой тройки положительных чисел $a$, $b$ и $c$, такой, что $a^2 + b^2 = c^2$, существует прямоугольный треугольник с катетами $a$ и $b$ и гипотенузой $c$.
-%     \end{rutheorem}
-% \end{frame}
-
-% \begin{frame}
-%     \frametitle{Архитектура решения}
-%     \begin{itemize}
-%         \item В реализации интересны архитектура, библиотеки, инструменты
-%         \item Не надо добавлять на слайд примеры кода
-%         \item Текст в квадратиках должен быть читаемым (крупным, а не как тут)
-%     \end{itemize}
-%     \begin{center}
-%         \includegraphics[width=0.7\textwidth]{figures/Activ_SEL_Processing.pdf}
-%     \end{center}
-% \end{frame}
-
-% \begin{frame}[t]
-%     \frametitle{Экспериментальное исследование}
-%     Постановка эксперимента
-%     \begin{itemize}
-%         \item На каком наборе данных проводилось экспериментальное исследование, почему были выбраны именно эти данные
-%         \item На каком оборудовании проводилось исследование
-%         \item Какие решения были выбраны для сравнения и почему
-%     \end{itemize}
-% \end{frame}
-
-% \begin{frame}[t]
-%     \frametitle{Результаты экспериментального исследования}
-%     \begin{itemize}
-%         \item Какие результаты показало экспериментальное исследование
-%         \item Желательно привести графики, иллюстрирующие полученные результаты
-%               \begin{itemize}
-%                   \item У иллюстраций должны быть подписи, у графиков~--- легенда, подписи к осям, например:
-%               \end{itemize}
-%     \end{itemize}
-%     \includegraphics[width=13cm]{figures/dist.png}
-% \end{frame}
-
-
-
-% %\addtocounter{framenumber}{1}
-% \appendix
 
 \end{document}
