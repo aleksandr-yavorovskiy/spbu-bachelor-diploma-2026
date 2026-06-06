@@ -1,0 +1,44 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam shadowing false
+top to bottom direction
+
+actor "User" as User
+
+component "Import Service" as Import
+
+component "Compilation Service" as Compilation {
+    [LatexBuilder]
+    [ProcessingPipeline]
+    [LatexCompiler]
+}
+
+component "Processing Pipeline" as ProcessingPipeline {
+    [LatexEscaper]
+    [SoftBreaksProcessor]
+}
+
+component "Export Service" as Export
+
+' -----------------------------
+' основной вертикальный поток
+' -----------------------------
+
+User --> Import : file
+Import --> User : text
+User --> LatexEscaper : text
+Import -[hidden]-> LatexEscaper
+
+
+' -----------------------------
+' ВНУТРИ COMPILATION (вертикально!)
+' -----------------------------
+
+LatexEscaper -right-> SoftBreaksProcessor
+SoftBreaksProcessor -right-> LatexBuilder
+LatexBuilder -right-> LatexCompiler
+
+LatexCompiler --> Export : bytes
+
+
+@enduml
