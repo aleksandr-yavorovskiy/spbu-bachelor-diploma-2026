@@ -66,28 +66,9 @@
 \end{frame}
 }
 
-% \begin{frame}{Введение}
-
-%     % \todo{REFACTOR}
-
-%     \begin{itemize}
-%         \item Оцифровываются кириллические рукописи XIII века
-%         \item Возникает необходимость ручного редактирования полученного текста
-%         \item Сложности:
-%         \begin{itemize}
-%             \item Неконсистентность шрифтов
-%             \item Неудобство набора специальных кириллических символов
-%         \end{itemize}
-%         \item Необходимо создать приложение для удобной работы с кириллическими текстами
-%     \end{itemize}
-% \end{frame}
-
 \begin{frame}{Введение}
-
-    % \todo{REFACTOR}
-
     \begin{itemize}
-        \item Оцифровка кириллических рукописей: \textbf{\enquote{Цифровой летописец}} совместно с научно-исследовательским отделом рукописей библиотеки \textbf{РАН}
+        \item Оцифровка кириллических рукописей: \textbf{\enquote{Цифровой летописец}} совместно с научно-исследовательским отделом \textbf{рукописей Библиотеки Российской академии наук}
         \item Сотрудники сталкиваются с проблемами при подготовке текстов для публикации:
         \begin{enumerate}
             \item \textbf{Неконсистентность отображения} при смене шрифта
@@ -103,8 +84,6 @@
 
 \begin{frame}
     \frametitle{Существующие решения}
-
-    % \todo{REFACTOR}
 
     \begin{itemize}
         \item \textbf{Microsoft Word}
@@ -129,14 +108,11 @@
                 \item \enquote{Неблизко} экспертам по рукописям
             \end{enumerate}
         \end{itemize}
-        % \item Прочие отечественные аналоги (Cyrillic Text Editor, Online Cyrillic Editor) не предназначены для работы с церковнославянскими текстами
     \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Выводы}
-
-    % \todo{REFACTOR}
 
     \begin{itemize}
         \item \textbf{Нет инструмента} для работы с кириллическими и церковнославянскими текстами
@@ -149,7 +125,6 @@
             \item Не учитываются особенности шрифтов, отсутствует механизм \textbf{корректной конвертации}
             \item \textbf{Ограничения по объему} текста в бесплатных версиях
         \end{enumerate}
-        % \item Необходимо разработать инструмент для набора и редактирования кириллических текстов, автоматизирующий корректную конвертацию символов при смене шрифтов
     \end{itemize}
 \end{frame}
 
@@ -160,15 +135,15 @@
     \vspace{1em}
 
     \textbf{Задачи:}
-    \begin{itemize}
+    \begin{enumerate}
         \item Собрать и проработать требования к инструменту
-        \item Провести обзор шрифтов, используемых при наборе кириллических текстов, с целью определения лучшего по количеству верно отображаемых символов и выявления особенностей отображения для каждого из шрифтов
+        \item Провести сравнительный обзор шрифтов, используемых при наборе кириллических текстов
         \item Спроектировать архитектуру приложения
         \item Реализовать разработанное решение
         \item Развернуть приложение на сервере
         \item Обеспечить тестовое покрытие кода backend API приложения не менее 70\% операторов (statements)
         \item Провести апробацию инструмента среди пользователей
-    \end{itemize}
+    \end{enumerate}
 \end{frame}
 
 % %Идеально, если есть по одному слайду на каждую поставленную задачу
@@ -194,7 +169,6 @@
 \end{frame}
 
 \begin{frame}{Обзор шрифтов}
-    % \todo{REFACTOR}
 
     Рассматривалось 5 шрифтов:
     \begin{itemize}
@@ -220,12 +194,6 @@
 
 
 \begin{frame}{Обзор шрифтов}
-    % \todo{REFACTOR}
-
-    % Итоги сравнения
-    % TODO: сделать диаграмму вместо таблицы
-    % TODO: !!!!! изменить кол-во для ПОНОМАРЬ в буквотитлах на один меньше
-    % \includegraphics[width=1\textwidth]{figures/fonts_comparison_results_table.png}
 
     \begin{table}[H]
             \caption{Итоги сравнения, количество поддерживаемых символов}
@@ -253,13 +221,12 @@
 
      Выводы:
     \begin{itemize}
-        \item \textbf{Menaion Unicode}~--- лучший по количеству верно отображаемых символов
+        \item \textbf{Menaion Unicode}~--- лучший по количеству корректно отображаемых символов
         \item Необходим инструмент конвертации между шрифтами, чтобы символы не \enquote{ломались}
      \end{itemize}
 \end{frame}
 
 \begin{frame}{Архитектура решения (backend)}
-    % \todo{REFACTOR}
 
     Одностраничное веб-приложение (SPA)
     \vspace{1em}
@@ -267,12 +234,12 @@
     Используемые технологии:
     \begin{itemize}
         \item Фронтэнд: \textbf{Vue.js}
-        \item Бэкэнд: Python (\textbf{Fast API}) и библиотеки
+        \item Бэкэнд: Python (\textbf{FastAPI}) и библиотеки
         \begin{itemize}
             \item docx
-            \item PyPDF2
+            \item PyPDF
         \end{itemize}
-        \item Сборка PDF: \textbf{XeLaTex}~--- встроенная поддержка \textbf{Unicode}
+        \item Сборка PDF: \textbf{XeLaTeX}~--- встроенная поддержка \textbf{Unicode}
         \item Инфраструктура:
         \begin{itemize}
             \item \textbf{nginx}
@@ -284,23 +251,20 @@
 %     \item Не надо добавлять на слайд примеры кода
 \end{frame}
 
-\begin{frame}{Архитектура решения}
-    % \todo{Вместо этого использовать компонентную диаграмму}
+\begin{frame}{Архитектура решения: процесс работы с PDF}
 
     \begin{center}
         \includegraphics[width=0.6\textwidth]{figures/services-flow-new.png}
     \end{center}
 \end{frame}
 
-\begin{frame}{Реализация}
-    % \todo{REFACTOR}
+\begin{frame}{Реализация: внешний вид приложения}
     \begin{center}
         \includegraphics[width=0.8\textwidth]{figures/demo_new.png}
     \end{center}
 \end{frame}
 
 \begin{frame}{Развертывание}
-    % \todo{REFACTOR}
 
     \begin{columns}
 
@@ -311,7 +275,7 @@
                     \item frontend
                     \item backend
                 \end{enumerate}
-                \item Docker compose
+                \item Docker Compose
                 \item make deploy
             \end{itemize}
         \end{column}
@@ -336,7 +300,7 @@
 
     \vspace{1em}
 
-    Тестовое покрытие (pytest): 89\% операторов
+    Покрытие кода тестами (pytest): 89\% операторов
     \begin{center}
         \includegraphics[width=0.5\textwidth]{figures/test_coverage.png}
     \end{center}
@@ -344,27 +308,25 @@
 
 \begin{frame}
     \frametitle{Результаты}
-
-    % \todo{REFACTOR}
-
     В результате работы были выполнены следующие задачи:
-    \begin{itemize}
+    \begin{enumerate}
         \item Собраны и проработаны требования к инструменту
         \item Проведен сравнительный обзор кириллических шрифтов
         \begin{itemize}
-            \item Определен лучший по количеству верно отображаемых символов шрифт~--- Menaion Unicode
+            \item Определен лучший по количеству корректно отображаемых символов шрифт~--- Menaion Unicode
             \item Выявлены особенности отображения символов в различных шрифтах и разработан механизм их корректного сопоставления при конвертации
         \end{itemize}
         \item Спроектировано решение на основе требований
-        \item Реализовано и развернуто на сервере веб-приложение для работы с кириллическими текстами
+        \item Реализовано спроектированное решение
+        \item Развернуто реализованное решение на сервере
         \item Проведена апробация среди пользователей, SUS: 73.9
-        \item Обеспечено тестовое покрытие кода backend API приложения 89\% операторов (statements)
-    \end{itemize}
+        \item Обеспечено тестовое покрытие кода backend API приложения~--- 89\% операторов (statements)
+    \end{enumerate}
 
     Код доступен по ссылке: \url{https://github.com/aleksandr-yavorovskiy/cyrillic-editor}
 
     % \begin{itemize}
-    Результаты работы представлены на конференциях \enquote{IT-симпозиум 2026} и \enquote{СПИСОК 2026}.
+    Результаты работы представлены на конференциях \enquote{IT-симпозиум~2026} и \enquote{СПИСОК~2026}.
     % \end{itemize}
 \end{frame}
 
